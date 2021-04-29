@@ -1,0 +1,11 @@
+@mixin generate-utility($utility) {
+  $properties: map-get($utility, property);
+  $class: map-get($utility, class);
+  $values: map-get($utility, values);
+
+  @each $key1, $value1 in $values {
+    .#{$class}-#{$key1} {
+      #{$properties}: #{$value1}
+    }
+  }
+}

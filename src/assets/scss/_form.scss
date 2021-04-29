@@ -1,0 +1,39 @@
+@import "vareables";
+
+.form__control {
+  width: 100%;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  color: $body-color;
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+  &:focus {
+    outline: 0;
+    border-color: $blue;
+  }
+}
+.form__group {
+  margin-bottom: 1rem;
+  &.invalid {
+    & > input.form__control {
+      border: 1px solid $red;
+    }
+    & > small.form__error {
+      display: block;
+    }
+  }
+}
+label {
+  font-size: 14px;
+  margin-bottom: 5px;
+  display: inline-block;
+}
+small.form__error {
+  display: none;
+  margin-top: .1rem;
+  color: $red;
+  font-size: 12px;
+}

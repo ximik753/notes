@@ -1,0 +1,34 @@
+@import "vareables";
+@import "mixins/buttons";
+
+.btn {
+  border: none;
+  padding: .375rem .75rem;
+  border-radius: .25rem;
+  cursor: pointer;
+  font-size: 1rem;
+  background-color: transparent;
+  font-weight: 400;
+  line-height: 1.5;
+  color: $body-color;
+  &:hover {
+    color: $body-color;
+  }
+  .btn-check:focus + &,
+  &:focus {
+    outline: 0;
+  }
+
+  &:disabled,
+  &.disabled,
+  fieldset:disabled & {
+    pointer-events: none;
+    opacity: $btn-disabled-opacity;
+  }
+}
+
+@each $color, $value in $theme-colors {
+  .btn-#{$color} {
+    @include button-variant($value, $value);
+  }
+}

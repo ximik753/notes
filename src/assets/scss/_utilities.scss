@@ -1,0 +1,83 @@
+@import "vareables";
+
+$utilities: (
+  "min-viewport-height": (
+    property: min-height,
+    class: min-vh,
+    values: (100: 100vh)
+  ),
+  "width": (
+    property: width,
+    class: w,
+    values: (
+      25: 25%,
+      50: 50%,
+      75: 75%,
+      100: 100%,
+      auto: auto
+    )
+  ),
+  "displays": (
+    property: display,
+    class: d,
+    values: (
+      flex: flex,
+      block: block
+    )
+  ),
+  "justify-contents": (
+    property: justify-content,
+    class: justify-content,
+    values: (
+      start: start,
+      end: end,
+      center: center,
+      between: between,
+      around: around
+    )
+  ),
+  "align-items": (
+    property: align-items,
+    class: align-items,
+    values: (center: center)
+  ),
+  "padding": (
+    property: padding,
+    class: p,
+    values: $spacers
+  ),
+  "padding-bottom": (
+    property: padding-bottom,
+    class: pb,
+    values: $spacers
+  ),
+  "margin": (
+    property: margin,
+    class: m,
+    values: $spacers
+  ),
+  "margin-top": (
+    property: margin-top,
+    class: mt,
+    values: $spacers
+  ),
+  "margin-bottom": (
+    property: margin-bottom,
+    class: mb,
+    values: $spacers
+  ),
+  "text-align": (
+    property: text-align,
+    class: text,
+    values: (
+      center: center,
+      left: left,
+      right: right,
+    )
+  ),
+  "text": (
+    property: color,
+    class: text,
+    values: $theme-colors
+  )
+);
