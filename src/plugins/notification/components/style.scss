@@ -1,0 +1,46 @@
+@import "../../../assets/scss/vareables";
+
+.notification {
+  text-align: left;
+  font-size: 12px;
+  padding: 10px;
+  margin: 0 5px 5px;
+  color: $white;
+  background: $primary;
+  border-left: 5px solid #0e61b3;
+
+  &__group {
+    position: fixed;
+    z-index: 5000;
+    top: 15px;
+    right: 15px;
+  }
+  &__wrapper {
+    overflow: hidden;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  &__title {
+    font-weight: 600;
+  }
+  &.success {
+    background: $success;
+    border-left-color: #2c6d3e;
+  }
+  &.danger {
+    background: $danger;
+    border-left-color: #b11d2a;
+  }
+  &.warn {
+    background: $warning;
+    border-left-color: #a88208;
+  }
+}
+.fade-enter-active, .fade-leave-active, .fade-move {
+  transition: all .33s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+  transform: translateX(-300px) scale(.2);
+}
