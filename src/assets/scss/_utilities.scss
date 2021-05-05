@@ -32,14 +32,24 @@ $utilities: (
       start: start,
       end: end,
       center: center,
-      between: between,
-      around: around
+      between: space-between,
+      around: space-around
     )
   ),
   "align-items": (
     property: align-items,
     class: align-items,
     values: (center: center)
+  ),
+  "align-self": (
+    property: align-self,
+    class: align-self,
+    values: (
+      center: center,
+      start: start,
+      end: end,
+      baseline: baseline
+    )
   ),
   "padding": (
     property: padding,
@@ -49,6 +59,11 @@ $utilities: (
   "padding-bottom": (
     property: padding-bottom,
     class: pb,
+    values: $spacers
+  ),
+  "padding-top": (
+    property: padding-top,
+    class: pt,
     values: $spacers
   ),
   "margin": (
@@ -66,6 +81,11 @@ $utilities: (
     class: mb,
     values: $spacers
   ),
+  "margin-left": (
+    property: margin-left,
+    class: ml,
+    values: $spacers
+  ),
   "text-align": (
     property: text-align,
     class: text,
@@ -79,5 +99,42 @@ $utilities: (
     property: color,
     class: text,
     values: $theme-colors
-  )
+  ),
+  "font-weight": (
+    property: font-weight,
+    class: fw,
+    values: (
+      light: $font-weight-light,
+      lighter: $font-weight-lighter,
+      normal: $font-weight-normal,
+      bold: $font-weight-bold,
+      bolder: $font-weight-bolder
+    )
+  ),
+  "flex-fill": (
+    property: flex,
+    class: flex,
+    values: (fill: 1)
+  ),
+  "flex-direction": (
+    property: flex-direction,
+    class: flex-direction,
+    values: (column: column)
+  ),
+  "flex-wrap": (
+    property: flex-wrap,
+    class: flex,
+    values: (
+      wrap: wrap,
+      nowrap: nowrap
+    )
+  ),
+  "position": (
+    property: position,
+    class: position,
+    values: (
+      absolute: absolute,
+      relative: relative
+    )
+  ),
 );

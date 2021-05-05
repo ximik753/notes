@@ -53,6 +53,10 @@ export default {
       })
       commit('setTokens', tokens)
       return tokens
+    },
+    async logout({commit}) {
+      commit('removeToken')
+      await router.push('/auth')
     }
   },
   mutations: {
@@ -61,7 +65,9 @@ export default {
       state.refreshToken = refreshToken
       storage('auth', {token, refreshToken})
     },
-    logout() {
+    removeToken(state) {
+      state.token = null
+      state.refreshToken = null
       localStorage.clear()
     }
   },
