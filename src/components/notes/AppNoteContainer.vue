@@ -4,7 +4,8 @@
       v-for="(component, index) in note.data"
       :key="component.value"
       :is="componentsName[index]"
-      v-bind="{data: component.value}"
+      @add-component="addComponent"
+      v-bind="{data: component.value, componentId: index}"
     ></component>
   </div>
   <div v-else class="position-absolute empty-container">
@@ -30,6 +31,11 @@ export default {
   computed: {
     componentsName() {
       return this.note.data.map(item => `app-content-${item.type}`)
+    }
+  },
+  methods: {
+    addComponent(type, index) {
+      this.note.data.splice(index, 0, {type, value: Date.now()})
     }
   }
 }

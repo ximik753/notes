@@ -1,15 +1,21 @@
 <template>
   <div class="add-block">
     <div class="add-block__buttons">
-      <button class="btn btn-primary btn-sm">+ todo</button>
-      <button class="btn btn-primary btn-sm">+ текст</button>
+      <button class="btn btn-primary btn-sm" @click="add('todo')">+ todo</button>
+      <button class="btn btn-primary btn-sm" @click="add('input')">+ текст</button>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'AppAddBlock'
+  name: 'AppAddBlock',
+  emits: ['add-component'],
+  methods: {
+    add(type) {
+      this.$emit('add-component', type)
+    }
+  }
 }
 </script>
 
