@@ -122,3 +122,9 @@ $headings-font-style: null !default;
 $headings-font-weight: 500 !default;
 $headings-line-height: 1.2 !default;
 $headings-color: null !default;
+
+$font-size-sm: $font-size-base * .875 !default;
+
+$btn-padding-y-sm: .25rem !default;
+$btn-padding-x-sm: .5rem !default;
+$btn-font-size-sm: $font-size-sm !default;
