@@ -6,7 +6,10 @@ export default {
         title: 'Test',
         lastUpdate: Date.now(),
         shortText: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo, quod.',
-        data: [{type: 'input', value: '1'}],
+        data: [
+          {type: 'input', value: '1'},
+          {type: 'todo', value: [{value: 'test', done: false}, {value: 'test2', done: true}]}
+        ],
         id: 1
       }
     ]

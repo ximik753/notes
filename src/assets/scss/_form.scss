@@ -26,10 +26,9 @@
     }
   }
 }
-label {
+.form__group > label {
   font-size: 14px;
   margin-bottom: 5px;
-  display: inline-block;
 }
 small.form__error {
   display: none;

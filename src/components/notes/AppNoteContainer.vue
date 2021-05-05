@@ -16,10 +16,11 @@
 
 <script>
 import AppContentInput from './blocksContent/AppContentInput'
+import AppContentTodo from './blocksContent/AppContentTodo'
 
 export default {
   name: 'AppNoteContainer',
-  components: {AppContentInput},
+  components: {AppContentInput, AppContentTodo},
   data() {
     return {
       note: null
@@ -35,7 +36,7 @@ export default {
   },
   methods: {
     addComponent(type, index) {
-      this.note.data.splice(index, 0, {type, value: Date.now()})
+      this.note.data.splice(index, 0, {type, value: type === 'input' ? Date.now() : []})
     }
   }
 }
