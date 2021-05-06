@@ -1,5 +1,5 @@
 <template>
-  <div class="notification__group">
+  <div class="notification__group" v-if="active.length > 0">
     <transition-group
       name="fade"
     >

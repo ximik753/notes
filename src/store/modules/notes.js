@@ -13,7 +13,7 @@ export default {
           {
             id: Date.now(),
             type: 'input',
-            value: '1'
+            value: ''
           }
         ]
       }

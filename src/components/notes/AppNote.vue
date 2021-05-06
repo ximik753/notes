@@ -4,7 +4,7 @@
     @click="openNote"
   >
     <div class="d-flex justify-content-between align-items-center mb-2">
-      <h5>{{note.title}}</h5>
+      <h6>{{note.title}}</h6>
       <time>{{time}}</time>
     </div>
     <p>{{note.shortText}}</p>
@@ -36,7 +36,7 @@ export default {
 <style scoped lang="scss">
 @import "../../assets/scss/vareables";
 
-h5 {
+h6 {
  margin: 0;
 }
 .selected {
