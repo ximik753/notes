@@ -11,6 +11,7 @@ export default {
         shortText: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo, quod.',
         data: [
           {
+            id: Date.now(),
             type: 'input',
             value: '1'
           }
@@ -25,6 +26,12 @@ export default {
     changeTitle(state, {id, title}) {
       const note = state.notes.find(note => note.id === id)
       note.title = title
+    },
+    patchData(state, {noteId, nodeId, value}) {
+      const node = state.notes
+        .find(n => n.id === noteId).data
+        .find(n => n.id === nodeId)
+      node.value = value
     }
   },
   getters: {

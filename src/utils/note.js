@@ -5,7 +5,7 @@ export function createTemplateNote() {
     lastUpdate: Date.now(),
     shortText: '',
     data: [
-      {type: 'input', value: ''}
+      {type: 'input', value: '', id: Date.now()}
     ]
   }
 }

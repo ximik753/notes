@@ -3,10 +3,10 @@
     <input class="form__control h4" v-model="title"/>
     <component
       v-for="(component, index) in note.data"
-      :key="component.value"
+      :key="component.id"
       :is="componentsName[index]"
       @add-component="addComponent"
-      v-bind="{data: component.value, componentId: index}"
+      v-bind="{data: component.value, componentId: note.id, blockId: component.id}"
     ></component>
   </div>
   <div v-else class="position-absolute empty-container">
