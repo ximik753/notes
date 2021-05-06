@@ -27,7 +27,12 @@ export default {
     }
   },
   mounted() {
-    this.note = this.$store.getters['notes/getNoteById'](this.$route.query.id)
+    this.loadNote()
+  },
+  watch: {
+    '$route.query.id'() {
+      this.loadNote()
+    }
   },
   computed: {
     componentsName() {
@@ -37,6 +42,9 @@ export default {
   methods: {
     addComponent(type, index) {
       this.note.data.splice(index, 0, {type, value: type === 'input' ? Date.now() : []})
+    },
+    loadNote() {
+      this.note = this.$store.getters['notes/getNoteById'](this.$route.query.id)
     }
   }
 }
