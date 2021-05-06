@@ -10,16 +10,21 @@ export default {
         lastUpdate: Date.now(),
         shortText: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo, quod.',
         data: [
-          {type: 'input', value: '1'},
-          {type: 'todo', value: [{value: 'test', done: false}, {value: 'test2', done: true}]}
-        ],
-        id: 1
+          {
+            type: 'input',
+            value: '1'
+          }
+        ]
       }
     ]
   },
   mutations: {
     createNote(state) {
       state.notes = [createTemplateNote(), ...state.notes]
+    },
+    changeTitle(state, {id, title}) {
+      const note = state.notes.find(note => note.id === id)
+      note.title = title
     }
   },
   getters: {

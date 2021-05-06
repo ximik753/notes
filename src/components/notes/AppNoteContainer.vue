@@ -18,13 +18,15 @@
 <script>
 import AppContentInput from './blocksContent/AppContentInput'
 import AppContentTodo from './blocksContent/AppContentTodo'
+import {debounce} from '../../utils'
 
 export default {
   name: 'AppNoteContainer',
   components: {AppContentInput, AppContentTodo},
   data() {
     return {
-      note: null
+      note: null,
+      title: ''
     }
   },
   mounted() {
@@ -33,6 +35,9 @@ export default {
   watch: {
     '$route.query.id'() {
       this.loadNote()
+    },
+    title(newTitle) {
+      this.updateTitle(newTitle)
     }
   },
   computed: {
@@ -46,7 +51,11 @@ export default {
     },
     loadNote() {
       this.note = this.$store.getters['notes/getNoteById'](this.$route.query.id)
-    }
+      this.title = this.note.title
+    },
+    updateTitle: debounce(function(title) {
+      this.$store.commit('notes/changeTitle', {title, id: this.note.id})
+    }, 500)
   }
 }
 </script>
