@@ -47,11 +47,13 @@ export default {
   },
   methods: {
     addComponent(type, index) {
-      this.note.data.splice(index, 0, {type, value: type === 'input' ? Date.now() : []})
+      this.note.data.splice(index, 0, {type, value: type === 'input' ? '' : [], id: Date.now()})
     },
     loadNote() {
-      this.note = this.$store.getters['notes/getNoteById'](this.$route.query.id)
-      this.title = this.note.title
+      if (this.$route.query.id) {
+        this.note = this.$store.getters['notes/getNoteById'](this.$route.query.id)
+        this.title = this.note.title
+      }
     },
     updateTitle: debounce(function(title) {
       this.$store.commit('notes/changeTitle', {title, id: this.note.id})
