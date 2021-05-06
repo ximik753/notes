@@ -1,5 +1,6 @@
 <template>
   <div class="p-5" v-if="$route.query.id && note">
+    <input class="form__control h4" v-model="title"/>
     <component
       v-for="(component, index) in note.data"
       :key="component.value"
@@ -51,6 +52,10 @@ export default {
 </script>
 
 <style scoped>
+.form__control {
+  border-color: transparent;
+  padding: 0;
+}
 .empty-container {
   left: 50%;
   top: 50%;
