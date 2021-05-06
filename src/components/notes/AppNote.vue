@@ -1,6 +1,6 @@
 <template>
   <div
-    class="border-bottom note-container p-2"
+    :class="['border-bottom', 'note-container', 'p-2', {selected: +$route.query.id === note.id}]"
     @click="openNote"
   >
     <div class="d-flex justify-content-between align-items-center mb-2">
@@ -40,7 +40,7 @@ h5 {
  margin: 0;
 }
 .selected {
-  background-color: $gray-400;
+  background-color: $gray-200;
 }
 p {
  white-space: nowrap;
