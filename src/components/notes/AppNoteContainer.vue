@@ -1,6 +1,6 @@
 <template>
   <div class="p-5" v-if="$route.query.id && note">
-    <input class="form__control h4" v-model="title"/>
+    <input class="form__control h4" v-model="title" ref="title"/>
     <component
       v-for="(component, index) in note.data"
       :key="component.id"
@@ -53,6 +53,10 @@ export default {
       if (this.$route.query.id) {
         this.note = this.$store.getters['notes/getNoteById'](this.$route.query.id)
         this.title = this.note.title
+
+        if (this.$route.query.new) {
+          this.$refs.title.focus()
+        }
       }
     },
     updateTitle: debounce(function(title) {

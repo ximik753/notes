@@ -27,7 +27,7 @@ export default {
   components: {AppNote, TheHeader, AppNoteContainer},
   methods: {
     createNote() {
-      this.$store.commit('notes/createNote')
+      this.$store.dispatch('notes/createNote')
     }
   }
 }

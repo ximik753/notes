@@ -1,4 +1,5 @@
 import {createTemplateNote} from '../../utils/note'
+import router from '../../router'
 
 export default {
   namespaced: true,
@@ -19,9 +20,16 @@ export default {
       }
     ]
   },
+  actions: {
+    async createNote(ctx) {
+      const note = createTemplateNote()
+      ctx.commit('addNote', note)
+      await router.push({name: 'Home', query: {id: note.id, new: 'true'}})
+    }
+  },
   mutations: {
-    createNote(state) {
-      state.notes = [createTemplateNote(), ...state.notes]
+    addNote(state, note) {
+      state.notes = [note, ...state.notes]
     },
     changeTitle(state, {id, title}) {
       const note = state.notes.find(note => note.id === id)
