@@ -51,11 +51,14 @@ export default {
     },
     loadNote() {
       if (this.$route.query.id) {
-        this.note = this.$store.getters['notes/getNoteById'](this.$route.query.id)
-        this.title = this.note.title
+        const note = this.$store.getters['notes/getNoteById'](this.$route.query.id)
+        if (note) {
+          this.note = note
+          this.title = note.title
 
-        if (this.$route.query.new) {
-          this.$refs.title.focus()
+          if (this.$route.query.new) {
+            this.$refs.title.focus()
+          }
         }
       }
     },
