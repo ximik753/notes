@@ -27,7 +27,7 @@ export default {
     },
     changeValue: debounce(function(value) {
       this.$store.commit('notes/patchData', {value, nodeId: this.blockId, noteId: this.componentId})
-    }, 300)
+    }, 500)
   }
 }
 </script>
