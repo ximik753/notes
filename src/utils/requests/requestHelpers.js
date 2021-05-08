@@ -7,9 +7,9 @@ export function isCorrectToken(token) {
 }
 
 export async function updateRefreshToken() {
-  const refreshToken = store.state['auth/refreshToken']
+  const refreshToken = store.state.auth.refreshToken
   if (isCorrectToken(refreshToken)) {
-    const {token} = await store.dispatch('auth/refreshTokens')
+    const token = await store.dispatch('auth/refreshTokens')
     if (token) {
       return token
     }

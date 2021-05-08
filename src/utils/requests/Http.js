@@ -22,13 +22,13 @@ export default class {
     }
 
     if (isAuth) {
-      const token = store.state['auth/token']
+      const token = store.state.auth.token
       if (isCorrectToken(token)) {
-        headers.authorization = `Bearer ${store.state['auth/token']}`
+        headers.authorization = `Bearer ${token}`
       } else {
-        const token = updateRefreshToken()
-        if (token) {
-          headers.authorization = `Bearer ${token}`
+        const updatedToken = await updateRefreshToken()
+        if (updatedToken) {
+          headers.authorization = `Bearer ${updatedToken}`
         } else {
           return null
         }
