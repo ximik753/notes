@@ -6,6 +6,11 @@ $utilities: (
     class: min-vh,
     values: (100: 100vh)
   ),
+  "height": (
+    property: height,
+    class: h,
+    values: (100: 100%)
+  ),
   "width": (
     property: width,
     class: w,
@@ -22,7 +27,8 @@ $utilities: (
     class: d,
     values: (
       flex: flex,
-      block: block
+      block: block,
+      none: none
     )
   ),
   "justify-contents": (
@@ -84,6 +90,11 @@ $utilities: (
   "margin-left": (
     property: margin-left,
     class: ml,
+    values: $spacers
+  ),
+  "margin-right": (
+    property: margin-right,
+    class: mr,
     values: $spacers
   ),
   "text-align": (

@@ -4,7 +4,7 @@
     @click="openNote"
   >
     <div class="d-flex justify-content-between align-items-center mb-2">
-      <h6>{{note.title}}</h6>
+      <h6>{{note.title || 'Без названия'}}</h6>
       <time>{{time}}</time>
     </div>
     <p>{{note.shortText}}</p>
@@ -12,6 +12,8 @@
 </template>
 
 <script>
+import {timeParse} from '../../utils/note'
+
 export default {
   name: 'AppNote',
   props: {
@@ -27,7 +29,8 @@ export default {
   },
   computed: {
     time() {
-      return new Date(this.note.lastUpdate).getTime()
+      const time = timeParse(this.note.last_update)
+      return `${time.hours}:${time.minutes}`
     }
   }
 }
@@ -37,15 +40,18 @@ export default {
 @import "../../assets/scss/vareables";
 
 h6 {
- margin: 0;
+  margin: 0 3rem 0 0;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 .selected {
   background-color: $gray-200;
 }
 p {
- white-space: nowrap;
- text-overflow: ellipsis;
- overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
   margin: 0;
 }
 .note-container {

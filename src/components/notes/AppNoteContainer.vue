@@ -1,12 +1,16 @@
 <template>
-  <div class="p-5" v-if="$route.query.id && note">
-    <input class="form__control h4" v-model="title" ref="title"/>
+  <div class="p-5 position-relative" v-if="$route.query.id && $store.state.note.note">
+    <small class="position-absolute text-update" v-if="$store.state.note.updating">
+      Обновление данных
+      <app-spinner small color="primary"></app-spinner>
+    </small>
+    <input class="form__control h4" v-model="title" ref="inputTitle" placeholder="Название"/>
+    <small class="form__error" v-if="title?.length > 15">Заголовок должен быть меньше 15 символов, сейчас {{title?.length}} символов</small>
     <component
-      v-for="(component, index) in note.data"
+      v-for="(component, index) in components"
       :key="component.id"
       :is="componentsName[index]"
-      @add-component="addComponent"
-      v-bind="{data: component.value, componentId: note.id, blockId: component.id}"
+      v-bind="{data: component.data, componentId: component.id, blockIdx: index}"
     ></component>
   </div>
   <div v-else class="position-absolute empty-container">
@@ -18,53 +22,58 @@
 <script>
 import AppContentInput from './blocksContent/AppContentInput'
 import AppContentTodo from './blocksContent/AppContentTodo'
+import AppSpinner from '../UI/AppSpinner'
+import {computed, ref, watch} from 'vue'
+import {createInputBlock} from '../../utils/note'
 import {debounce} from '../../utils'
+import {useRoute} from 'vue-router'
+import {useStore} from 'vuex'
 
 export default {
   name: 'AppNoteContainer',
-  components: {AppContentInput, AppContentTodo},
-  data() {
-    return {
-      note: null,
-      title: ''
-    }
-  },
-  mounted() {
-    this.loadNote()
-  },
-  watch: {
-    '$route.query.id'() {
-      this.loadNote()
-    },
-    title(newTitle) {
-      this.updateTitle(newTitle)
-    }
-  },
-  computed: {
-    componentsName() {
-      return this.note.data.map(item => `app-content-${item.type}`)
-    }
-  },
-  methods: {
-    addComponent(type, index) {
-      this.note.data.splice(index, 0, {type, value: type === 'input' ? '' : [], id: Date.now()})
-    },
-    loadNote() {
-      if (this.$route.query.id) {
-        const note = this.$store.getters['notes/getNoteById'](this.$route.query.id)
-        if (note) {
-          this.note = note
-          this.title = note.title
+  components: {AppSpinner, AppContentInput, AppContentTodo},
+  async setup() {
+    const route = useRoute()
+    const store = useStore()
+    const inputTitle = ref(null)
 
-          if (this.$route.query.new) {
-            this.$refs.title.focus()
-          }
-        }
+    const fetchNote = async() => {
+      await store.dispatch('note/fetch', route.query.id)
+    }
+
+    watch(() => route.query.id, async() => {
+      await fetchNote()
+    })
+
+    watch(() => route.query.new, () => {
+      if (route.query.new) {
+        inputTitle.value.focus()
       }
-    },
-    updateTitle: debounce(function(title) {
-      this.$store.commit('notes/changeTitle', {title, id: this.note.id})
-    }, 500)
+    })
+
+    if (route.query.id) {
+      await fetchNote()
+    }
+
+    const title = computed({
+      get() {
+        return store.getters['note/getTitle']
+      },
+      set: debounce(value => {
+        if (!(value instanceof HTMLElement)) {
+          store.dispatch('note/changeTitle', value)
+        }
+      }, 300)
+    })
+    const componentsName = computed(() => store.getters['note/getData'].map(item => `app-content-${item.type}`))
+    const components = computed(() => store.getters['note/getData'] || [createInputBlock()])
+
+    return {
+      title,
+      componentsName,
+      components,
+      inputTitle
+    }
   }
 }
 </script>
@@ -72,7 +81,7 @@ export default {
 <style scoped>
 .form__control {
   border-color: transparent;
-  padding: 0;
+  padding: 1px;
 }
 .empty-container {
   left: 50%;
@@ -80,5 +89,11 @@ export default {
   transform: translate(-50%, -50%);
   width: 200px;
   text-align: center;
+}
+.text-update {
+  top: 15px;
+}
+small.form__error {
+  display: block;
 }
 </style>

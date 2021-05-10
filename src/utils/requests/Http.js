@@ -1,6 +1,6 @@
+import store from '../../store'
 import {objToQueryString} from '../index'
 import {isCorrectToken, updateRefreshToken} from './requestHelpers'
-import store from '../../store'
 
 export default class {
   static baseUrl = 'http://localhost:3000/api'
@@ -59,6 +59,15 @@ export default class {
       isAuth,
       body,
       method: 'POST'
+    })
+  }
+
+  static async patch({url, body, isAuth}) {
+    return await this._request({
+      url,
+      body,
+      isAuth,
+      method: 'PATCH'
     })
   }
 }
