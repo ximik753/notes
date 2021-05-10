@@ -1,12 +1,11 @@
 <template>
-  <app-add-block @add-component="addComponent($event, true)"></app-add-block>
   <div class="d-flex flex-direction-column">
     <h6 v-if="todos.length === 0">Задачи отстутстуют</h6>
     <div
+      v-else
       v-for="item in todos"
       :key="item.id"
       class="d-flex justify-content-between align-items-center mb-2"
-      v-else
     >
       <div class="d-flex align-items-center">
         <input type="checkbox" :checked="item.done" @input="doneTodo(item.id)"/>
@@ -15,28 +14,25 @@
           :value="item.value"
           :class="['form__control', 'ml-1', {done: item.done}]"
           @input="changeText($event.target.value, item.id)"
-          ref="newRef"
+          ref="newItem"
         />
       </div>
       <button
         class="btn btn-danger btn-sm align-self-center"
-        @click="removeTodo(item.id)"
+        @click="removeItem(item.id)"
       >&times;</button>
     </div>
-    <button class="btn btn-success mt-2" @click="addTodo">Добавить</button>
+    <button class="btn btn-success mt-2" @click="addItem">Добавить</button>
   </div>
-  <app-add-block @add-component="addComponent($event, false)"></app-add-block>
 </template>
 
 <script>
-import AppAddBlock from './AppAddBlock'
-import {debounce} from '../../../utils'
+import {createTodoItemBlock} from '../../../../utils/note'
 
 export default {
-  name: 'AppContentTodo',
-  components: {AppAddBlock},
-  props: ['data', 'componentId', 'blockId'],
-  emits: ['add-component'],
+  name: 'AppTodo',
+  props: ['data'],
+  emits: ['change-todo'],
   data() {
     return {
       todos: this.data
@@ -45,21 +41,15 @@ export default {
   watch: {
     todos: {
       handler(value) {
-        this.changeValue(value)
+        this.$emit('change-todo', value)
       },
       deep: true
     }
   },
   methods: {
-    addComponent(type, isBefore) {
-      this.$emit('add-component', type, isBefore ? this.componentId : this.componentId + 1)
-    },
-    addTodo() {
-      this.todos.push({value: '', done: false, id: Date.now()})
-      this.$nextTick(() => this.$refs.newRef.focus())
-    },
-    removeTodo(id) {
-      this.todos = this.todos.filter(t => t.id !== id)
+    addItem() {
+      this.todos.push(createTodoItemBlock())
+      this.$nextTick(() => this.$refs.newItem.focus())
     },
     doneTodo(id) {
       this.todos.map(t => t.id === id ? t.done = !t.done : t)
@@ -67,15 +57,15 @@ export default {
     changeText(value, id) {
       this.todos.map(t => t.id === id ? t.value = value : t)
     },
-    changeValue: debounce(function(value) {
-      this.$store.commit('notes/patchData', {value, nodeId: this.blockId, noteId: this.componentId})
-    }, 300)
+    removeItem(id) {
+      this.todos = this.todos.filter(t => t.id !== id)
+    }
   }
 }
 </script>
 
 <style scoped lang="scss">
-@import "../../../assets/scss/form";
+@import "../../../../assets/scss/form";
 
 input[type=text] {
   @extend .form__control;

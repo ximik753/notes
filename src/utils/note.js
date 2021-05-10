@@ -15,6 +15,10 @@ export function createTodoBlock() {
   return {type: 'todo', id: generateId(), data: []}
 }
 
+export function createTodoItemBlock() {
+  return {value: '', done: false, id: Date.now()}
+}
+
 export function generateId() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
     const r = Math.random() * 16 | 0

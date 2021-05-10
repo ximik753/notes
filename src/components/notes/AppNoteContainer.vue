@@ -21,7 +21,7 @@
 
 <script>
 import AppContentInput from './blocksContent/AppContentInput'
-import AppContentTodo from './blocksContent/AppContentTodo'
+import AppContentTodo from './blocksContent/todo/AppContentTodo'
 import AppSpinner from '../UI/AppSpinner'
 import {computed, ref, watch} from 'vue'
 import {createInputBlock} from '../../utils/note'
