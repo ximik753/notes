@@ -1,5 +1,8 @@
 <template>
-  <div class="p-5 position-relative" v-if="$route.query.id && $store.state.note.note">
+  <div class="d-flex justify-content-center align-items-center h-100" v-if="loading">
+    <app-spinner color="primary"></app-spinner>
+  </div>
+  <div class="p-5 position-relative" v-else-if="!loading && $store.state.note.note">
     <small class="position-absolute text-update" v-if="$store.state.note.updating">
       Обновление данных
       <app-spinner small color="primary"></app-spinner>
@@ -20,19 +23,19 @@
 </template>
 
 <script>
-import AppContentInput from './blocksContent/AppContentInput'
 import AppContentTodo from './blocksContent/todo/AppContentTodo'
 import AppSpinner from '../UI/AppSpinner'
-import {computed, ref, watch} from 'vue'
+import AppContentInput from './blocksContent/AppContentInput'
+import {computed, onMounted, ref, watch} from 'vue'
+import {useStore} from 'vuex'
+import {useRoute} from 'vue-router'
 import {createInputBlock} from '../../utils/note'
 import {debounce} from '../../utils'
-import {useRoute} from 'vue-router'
-import {useStore} from 'vuex'
 
 export default {
   name: 'AppNoteContainer',
   components: {AppSpinner, AppContentInput, AppContentTodo},
-  async setup() {
+  setup() {
     const route = useRoute()
     const store = useStore()
     const inputTitle = ref(null)
@@ -40,6 +43,12 @@ export default {
     const fetchNote = async() => {
       await store.dispatch('note/fetch', route.query.id)
     }
+
+    onMounted(async() => {
+      if (route.query.id) {
+        await fetchNote()
+      }
+    })
 
     watch(() => route.query.id, async() => {
       await fetchNote()
@@ -50,10 +59,6 @@ export default {
         inputTitle.value.focus()
       }
     })
-
-    if (route.query.id) {
-      await fetchNote()
-    }
 
     const title = computed({
       get() {
@@ -67,12 +72,14 @@ export default {
     })
     const componentsName = computed(() => store.getters['note/getData'].map(item => `app-content-${item.type}`))
     const components = computed(() => store.getters['note/getData'] || [createInputBlock()])
+    const loading = computed(() => store.state.note.fetching)
 
     return {
-      title,
-      componentsName,
       components,
-      inputTitle
+      componentsName,
+      title,
+      inputTitle,
+      loading
     }
   }
 }

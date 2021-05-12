@@ -5,10 +5,12 @@ export default {
   namespaced: true,
   state: {
     note: null,
-    updating: false
+    updating: false,
+    fetching: false
   },
   actions: {
     async fetch(ctx, id) {
+      ctx.commit('setFetching', true)
       const note = await Http.get({
         url: `/note/${id}`,
         isAuth: true
@@ -18,6 +20,7 @@ export default {
       if (!note.data) {
         ctx.commit('setDefaultData')
       }
+      ctx.commit('setFetching', false)
     },
     async changeTitle(ctx, title) {
       if (ctx.state.note.title !== title && title.length <= 15) {
@@ -70,6 +73,9 @@ export default {
     },
     addComponent(state, {potion, type}) {
       state.note.data.splice(potion, 0, type === 'input' ? createInputBlock() : createTodoBlock())
+    },
+    setFetching(state, status) {
+      state.fetching = status
     }
   },
   getters: {

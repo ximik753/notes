@@ -22,17 +22,7 @@
         ></app-note>
       </div>
       <div class="col-8 position-relative">
-        <suspense>
-          <template #default>
-            <app-note-container></app-note-container>
-          </template>
-          <template #fallback>
-            <div class="d-flex justify-content-center align-items-center h-100">
-              <app-spinner color="primary"></app-spinner>
-            </div>
-          </template>
-        </suspense>
-
+        <app-note-container></app-note-container>
       </div>
     </div>
   </div>
