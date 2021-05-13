@@ -1,6 +1,8 @@
 import Http from '../../utils/requests/Http'
 import {createInputBlock, createTodoBlock} from '../../utils/note'
 
+let cancel
+
 export default {
   namespaced: true,
   state: {
@@ -10,17 +12,26 @@ export default {
   },
   actions: {
     async fetch(ctx, id) {
-      ctx.commit('setFetching', true)
-      const note = await Http.get({
-        url: `/note/${id}`,
-        isAuth: true
-      })
-      ctx.commit('setNote', note)
-
-      if (!note.data) {
-        ctx.commit('setDefaultData')
+      if (ctx.state.fetching) {
+        cancel.abort()
       }
-      ctx.commit('setFetching', false)
+
+      cancel = new AbortController()
+      ctx.commit('setFetching', true)
+
+      try {
+        const note = await Http.get({
+          url: `/note/${id}`,
+          isAuth: true,
+          cancel: cancel.signal
+        })
+        ctx.commit('setNote', note)
+
+        if (!note.data) {
+          ctx.commit('setDefaultData')
+        }
+        ctx.commit('setFetching', false)
+      } catch (e) {}
     },
     async changeTitle(ctx, title) {
       if (ctx.state.note.title !== title && title.length <= 15) {

@@ -5,7 +5,7 @@ import {isCorrectToken, updateRefreshToken} from './requestHelpers'
 export default class {
   static baseUrl = 'http://localhost:3000/api'
 
-  static async _request({url, isAuth = false, query, body, method = 'GET'}) {
+  static async _request({url, isAuth = false, query, body, method = 'GET', cancel}) {
     const headers = {}
     if (query) {
       if (typeof query === 'string') {
@@ -21,53 +21,67 @@ export default class {
       body = JSON.stringify(body)
     }
 
-    if (isAuth) {
-      const token = store.state.auth.token
-      if (isCorrectToken(token)) {
-        headers.authorization = `Bearer ${token}`
-      } else {
-        const updatedToken = await updateRefreshToken()
-        if (updatedToken) {
-          headers.authorization = `Bearer ${updatedToken}`
+    try {
+      if (isAuth) {
+        const token = store.state.auth.token
+        if (isCorrectToken(token)) {
+          headers.authorization = `Bearer ${token}`
         } else {
-          return null
+          const updatedToken = await updateRefreshToken()
+          if (updatedToken) {
+            headers.authorization = `Bearer ${updatedToken}`
+          } else {
+            return null
+          }
         }
       }
-    }
 
-    const request = await fetch(`${this.baseUrl}${url}`, {
-      headers,
-      method,
-      body
+      const request = await fetch(`${this.baseUrl}${url}`, {
+        headers,
+        method,
+        body,
+        signal: cancel
+      })
+      const json = await request.json()
+
+      if (json.response) {
+        return json.response
+      }
+      throw new Error(json.error.message)
+    } catch (e) {
+      if (e.name !== 'AbortError') {
+        throw new Error(e.message)
+      }
+    }
+  }
+
+  static async get({url, query, isAuth, cancel}) {
+    return await this._request({
+      url,
+      query,
+      isAuth,
+      cancel
     })
-    const json = await request.json()
-
-    if (json.response) {
-      return json.response
-    }
-    throw new Error(json.error.message)
   }
 
-  static async get({url, query, isAuth}) {
-    return await this._request({url, query, isAuth})
-  }
-
-  static async post({url, query, isAuth, body}) {
+  static async post({url, query, isAuth, body, cancel}) {
     return await this._request({
       url,
       query,
       isAuth,
       body,
-      method: 'POST'
+      method: 'POST',
+      cancel
     })
   }
 
-  static async patch({url, body, isAuth}) {
+  static async patch({url, body, isAuth, cancel}) {
     return await this._request({
       url,
       body,
       isAuth,
-      method: 'PATCH'
+      method: 'PATCH',
+      cancel
     })
   }
 }
