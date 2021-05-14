@@ -1,36 +1,30 @@
 import Http from '../../utils/requests/Http'
 import {createInputBlock, createTodoBlock} from '../../utils/note'
-
-let cancel
+import createCancelRequest from '../../utils/requests/cancelRequest'
 
 export default {
   namespaced: true,
   state: {
     note: null,
     updating: false,
-    fetching: false
+    fetching: false,
+    fetchingCancel: null
   },
   actions: {
-    async fetch(ctx, id) {
-      if (ctx.state.fetching) {
-        cancel.abort()
+    async fetch({state, commit}, id) {
+      const {request, abort} = createCancelRequest(`/note/${id}`)
+      if (state.fetching) {
+        state.fetchingCancel()
       }
 
-      cancel = new AbortController()
-      ctx.commit('setFetching', true)
-
+      commit('setFetching', {status: true, abort})
       try {
-        const note = await Http.get({
-          url: `/note/${id}`,
-          isAuth: true,
-          cancel: cancel.signal
-        })
-        ctx.commit('setNote', note)
-
+        const note = await request()
+        commit('setNote', note)
         if (!note.data) {
-          ctx.commit('setDefaultData')
+          commit('setDefaultData')
         }
-        ctx.commit('setFetching', false)
+        commit('setFetching', {status: false})
       } catch (e) {}
     },
     async changeTitle(ctx, title) {
@@ -85,8 +79,11 @@ export default {
     addComponent(state, {potion, type}) {
       state.note.data.splice(potion, 0, type === 'input' ? createInputBlock() : createTodoBlock())
     },
-    setFetching(state, status) {
-      state.fetching = status
+    setFetching(state, payload) {
+      state.fetching = payload.status
+      if (payload.status) {
+        state.fetchingCancel = payload.abort
+      }
     }
   },
   getters: {

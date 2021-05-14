@@ -49,9 +49,7 @@ export default class {
       }
       throw new Error(json.error.message)
     } catch (e) {
-      if (e.name !== 'AbortError') {
-        throw new Error(e.message)
-      }
+      throw new Error(e.message)
     }
   }
 
