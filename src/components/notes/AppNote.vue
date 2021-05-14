@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import {timeParse} from '../../utils/note'
+import {timeParse} from '../../utils/time'
 
 export default {
   name: 'AppNote',
@@ -29,8 +29,7 @@ export default {
   },
   computed: {
     time() {
-      const time = timeParse(this.note.last_update)
-      return `${time.hours}:${time.minutes}`
+      return timeParse(this.note.last_update)
     }
   }
 }

@@ -26,15 +26,3 @@ export function generateId() {
     return v.toString(16)
   })
 }
-
-export function timeParse(time) {
-  time = new Date(time)
-  return {
-    hours: getCorrectTime(time.getHours()),
-    minutes: getCorrectTime(time.getMinutes())
-  }
-}
-
-export function getCorrectTime(time) {
-  return time < 10 ? `0${time}` : time
-}

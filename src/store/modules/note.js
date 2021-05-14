@@ -95,6 +95,9 @@ export default {
     },
     getData(state) {
       return state.note?.data
+    },
+    getDateUpdate(state) {
+      return state.note.last_update
     }
   }
 }
