@@ -47,12 +47,12 @@ export default {
         })
       }
     },
-    async refreshTokens({commit}, token) {
+    async refreshTokens({commit, state}) {
       const tokens = await Http.post({
-        url: '/auth/refresh-token', body: {token}
+        url: '/auth/token-refresh', body: {token: state.refreshToken}
       })
       commit('setTokens', tokens)
-      return tokens
+      return tokens.token
     },
     async logout({commit}) {
       commit('removeToken')
