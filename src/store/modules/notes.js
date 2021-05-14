@@ -29,6 +29,9 @@ export default {
     }
   },
   mutations: {
+    addNote(state, note) {
+      state.notes = [note, ...state.notes]
+    },
     initNotes(state, notes) {
       state.notes = notes
     },
