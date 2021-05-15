@@ -3,7 +3,7 @@ export function timeParse(time) {
   if (isToday(time)) {
     return getTime(time)
   } else if (isYesterday(time)) {
-    return `Вчера в ${getDate(time)}`
+    return `Вчера в ${getTime(time)}`
   }
   return getDate(time)
 }

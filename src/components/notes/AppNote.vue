@@ -44,6 +44,9 @@ h6 {
   text-overflow: ellipsis;
   overflow: hidden;
 }
+time {
+  font-size: 12px;
+}
 .selected {
   background-color: $gray-200;
 }
