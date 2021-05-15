@@ -29,7 +29,11 @@ export default {
 
     onMounted(async() => route.query.id && await fetchNote())
 
-    watch(() => route.query.id, async() => await fetchNote())
+    watch(() => route.query.id, async() => {
+      if (route.query.id) {
+        await fetchNote()
+      }
+    })
 
     const loading = computed(() => store.state.note.fetching)
 

@@ -87,6 +87,9 @@ export default {
     }
   },
   getters: {
+    getId(state) {
+      return state.note?.id
+    },
     getTitle(state) {
       return state.note.title
     },

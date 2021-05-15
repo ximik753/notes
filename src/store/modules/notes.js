@@ -6,7 +6,8 @@ export default {
   namespaced: true,
   state: {
     notes: null,
-    creating: false
+    creating: false,
+    removing: false
   },
   actions: {
     async createNote(ctx) {
@@ -26,6 +27,16 @@ export default {
       })
       ctx.commit('setCreatingStatus', false)
       ctx.commit('initNotes', notes)
+    },
+    async removeNote({commit, state}, id) {
+      commit('setRemovingStatus', true)
+      try {
+        await Http.delete({
+          url: `/note/${id}`,
+          isAuth: true
+        })
+        commit('removeNoteById', id)
+      } catch (e) {}
     }
   },
   mutations: {
@@ -41,6 +52,20 @@ export default {
     changeTitle(state, {id, title}) {
       const note = state.notes.find(note => note.id === id)
       note.title = title
+    },
+    removeNoteById(state, id) {
+      state.notes = state.notes.filter(n => n.id !== id)
+      state.removing = false
+    },
+    setRemovingStatus(state, status) {
+      state.removing = status
+    }
+  },
+  getters: {
+    getNoteById(state) {
+      return id => {
+        return state.notes.find(note => note.id === id)
+      }
     }
   }
 }

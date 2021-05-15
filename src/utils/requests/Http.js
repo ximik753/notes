@@ -82,4 +82,12 @@ export default class {
       cancel
     })
   }
+
+  static async delete({url, isAuth}) {
+    return await this._request({
+      url,
+      isAuth,
+      method: 'DELETE'
+    })
+  }
 }

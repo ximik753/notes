@@ -3,9 +3,10 @@
     :class="['border-bottom', 'note-container', 'p-2', {selected: +$route.query.id === note.id}]"
     @click="openNote"
   >
-    <div class="d-flex justify-content-between align-items-center mb-2">
+    <div class="d-flex justify-content-between align-items-center mb-2 position-relative">
       <h6>{{note.title || 'Без названия'}}</h6>
-      <time>{{time}}</time>
+      <time class="mr-4">{{time}}</time>
+      <div class="position-absolute note-delete" @click.stop="remove(note.id)">&times;</div>
     </div>
     <p>{{note.shortText}}</p>
   </div>
@@ -22,9 +23,13 @@ export default {
       required: true
     }
   },
+  emits: ['remove-note'],
   methods: {
     openNote() {
       this.$router.push({name: 'Home', query: {id: this.note.id}})
+    },
+    remove(id) {
+      this.$emit('remove-note', id)
     }
   },
   computed: {
@@ -61,6 +66,17 @@ p {
   transition: background-color;
   &:hover {
     background-color: $gray-100;
+  }
+}
+.note-delete {
+  top: -10px;
+  right: -1px;
+  font-size: 24px;
+  transition: all .22s ease;
+  opacity: 0;
+  color: $gray-600;
+  &:hover {
+    opacity: 1;
   }
 }
 </style>

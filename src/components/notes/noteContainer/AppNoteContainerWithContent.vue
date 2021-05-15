@@ -29,6 +29,16 @@ export default {
     },
     components() {
       return this.$store.getters['note/getData'] || [createInputBlock()]
+    },
+    hasNote() {
+      const noteId = this.$store.getters['note/getId']
+      return this.$store.getters['notes/getNoteById'](noteId)
+    }
+  },
+  watch: {
+    hasNote() {
+      this.$router.push('/')
+      this.$store.commit('note/setNote', null)
     }
   }
 }
