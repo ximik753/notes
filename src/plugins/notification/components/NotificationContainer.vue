@@ -107,3 +107,13 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.fade-enter-active, .fade-leave-active, .fade-move {
+  transition: all .33s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+  transform: translateX(-300px) scale(.2);
+}
+</style>
