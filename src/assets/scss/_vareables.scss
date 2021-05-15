@@ -128,3 +128,8 @@ $font-size-sm: $font-size-base * .875 !default;
 $btn-padding-y-sm: .25rem !default;
 $btn-padding-x-sm: .5rem !default;
 $btn-font-size-sm: $font-size-sm !default;
+
+$modal-backdrop-bg: rgba($black, .5) !default;
+$modal-backdrop-opacity: .5 !default;
+$modal-window-border-radius: 5px !default;
+$modal-window-bg: $white !default;

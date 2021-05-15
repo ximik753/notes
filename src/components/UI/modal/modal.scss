@@ -1,0 +1,75 @@
+@import "../../../assets/scss/vareables";
+
+$animation-delay: .33s;
+
+.modal {
+  &__backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: $modal-backdrop-bg;
+  }
+  &.fade-enter-from &__backdrop, .fade-leave-to &__backdrop {
+    opacity: 0;
+  }
+  &.fade-enter-to &__backdrop, .fade-leave-from &__backdrop {
+    opacity: 1;
+  }
+  &.fade-enter-from &__backdrop, &.fade-enter-to &__backdrop,
+  .fade-leave-to &__backdrop, .fade-leave-from &__backdrop {
+    transition: opacity $animation-delay ease;
+  }
+  &__window {
+    background-color: $modal-window-bg;
+    width: 600px;
+    padding: .5rem;
+    border-radius: $modal-window-border-radius;
+    margin: 100px auto;
+  }
+  &.fade-enter-from &__window, .fade-leave-to &__window {
+    transform: translateY(-100px);
+  }
+  &.fade-enter-to &__window, .fade-leave-from &__window {
+    transform: translateY(0);
+  }
+  &.fade-enter-to &__window, &.fade-enter-from &__window,
+  .fade-leave-from &__window, .fade-leave-to &__window {
+    transition: transform $animation-delay ease;
+  }
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &__close {
+    font-size: 22px;
+    cursor: pointer;
+    transition: all .33s ease;
+    color: $gray-800;
+    &:hover {
+      color: $gray-600;
+    }
+  }
+  &__body {
+    font-size: 14px;
+    padding-bottom: 1rem;
+  }
+  &__body, &__footer {
+    margin-top: 1rem;
+  }
+  &__header, &__body {
+    border-bottom: 1px solid $gray-400;
+  }
+  &__footer {
+    padding-bottom: .5rem;
+  }
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition-delay: $animation-delay;
+}
+.fade-leave-to {
+  opacity: 0;
+}
