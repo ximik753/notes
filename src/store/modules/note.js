@@ -28,18 +28,15 @@ export default {
       } catch (e) {}
     },
     async changeTitle(ctx, title) {
+      ctx.commit('notes/changeTitle', {title, id: ctx.state.note.id}, {root: true})
       if (ctx.state.note.title !== title && title.length <= 15) {
         ctx.commit('setTitle', title)
-        ctx.commit('setUpdating', true)
         await Http.patch({
           url: `/note/${ctx.state.note.id}`,
           body: {title},
           isAuth: true
         })
         ctx.commit('setUpdating', false)
-        ctx.commit('notes/changeTitle', {title, id: ctx.state.note.id}, {root: true})
-      } else {
-        ctx.commit('setTitle', title)
       }
     },
     async patchData(ctx, {nodeId, value}) {
@@ -66,6 +63,7 @@ export default {
     },
     setTitle(state, title) {
       state.note.title = title
+      state.updating = true
     },
     setUpdating(state, status) {
       state.updating = status
