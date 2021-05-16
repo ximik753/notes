@@ -1,6 +1,6 @@
-import router from '../../router'
 import Http from '../../utils/requests/Http'
-import {createTemplateNote} from '../../utils/note'
+import router from '../../router'
+import {createTemplateNote, moveNoteToTop} from '../../utils/note'
 
 export default {
   namespaced: true,
@@ -37,6 +37,12 @@ export default {
         })
         commit('removeNoteById', id)
       } catch (e) {}
+    },
+    updateNotesList({commit}, payload) {
+      if (payload.title) {
+        commit('changeTitle', {id: payload.id, title: payload.title})
+      }
+      commit('updateNote', payload.id)
     }
   },
   mutations: {
@@ -52,6 +58,11 @@ export default {
     changeTitle(state, {id, title}) {
       const note = state.notes.find(note => note.id === id)
       note.title = title
+    },
+    updateNote(state, noteId) {
+      const note = state.notes.find(note => note.id === noteId)
+      note.last_update = new Date(Date.now()).toISOString()
+      state.notes = [...moveNoteToTop(note, state.notes)]
     },
     removeNoteById(state, id) {
       state.notes = state.notes.filter(n => n.id !== id)

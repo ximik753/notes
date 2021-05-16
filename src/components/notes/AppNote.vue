@@ -50,7 +50,7 @@ h6 {
   overflow: hidden;
 }
 time {
-  font-size: 12px;
+  font-size: 14px;
 }
 .selected {
   background-color: $gray-200;

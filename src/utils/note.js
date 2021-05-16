@@ -26,3 +26,10 @@ export function generateId() {
     return v.toString(16)
   })
 }
+
+export function moveNoteToTop(note, array) {
+  const idx = array.indexOf(note)
+  array.splice(idx, 1)
+  array.splice(0, 0, note)
+  return array
+}

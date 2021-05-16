@@ -28,9 +28,10 @@ export default {
       } catch (e) {}
     },
     async changeTitle(ctx, title) {
-      ctx.commit('notes/changeTitle', {title, id: ctx.state.note.id}, {root: true})
       if (ctx.state.note.title !== title && title.length <= 15) {
         ctx.commit('setTitle', title)
+        ctx.dispatch('notes/updateNotesList', {title, id: ctx.state.note.id}, {root: true})
+        ctx.commit('changeLastTimeUpdate')
         await Http.patch({
           url: `/note/${ctx.state.note.id}`,
           body: {title},
@@ -47,8 +48,9 @@ export default {
         return n
       })
 
+      ctx.dispatch('notes/updateNotesList', {id: ctx.state.note.id}, {root: true})
       ctx.commit('setData', notes)
-      ctx.commit('setUpdating', true)
+      ctx.commit('changeLastTimeUpdate')
       await Http.patch({
         url: `/note/${ctx.state.note.id}`,
         body: {data: notes},
@@ -73,6 +75,10 @@ export default {
     },
     setData(state, data) {
       state.note.data = data
+      state.updating = true
+    },
+    changeLastTimeUpdate(state) {
+      state.note.last_update = new Date(Date.now()).toISOString()
     },
     addComponent(state, {potion, type}) {
       state.note.data.splice(potion, 0, type === 'input' ? createInputBlock() : createTodoBlock())
