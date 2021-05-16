@@ -17,3 +17,15 @@ export default {
   }
 }
 </script>
+
+<style scoped lang="scss">
+@import "../../../assets/scss/vareables";
+
+.content-input {
+  border-color: transparent;
+  padding: 0;
+  &:focus {
+    border-color: $blue;
+  }
+}
+</style>
