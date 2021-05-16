@@ -7,12 +7,12 @@
       :key="item.id"
       class="d-flex justify-content-between align-items-center mb-2"
     >
-      <div class="d-flex align-items-center">
+      <div class="d-flex align-items-center w-100">
         <input type="checkbox" :checked="item.done" @input="doneTodo(item.id)"/>
         <input
           type="text"
           :value="item.value"
-          :class="['form__control', 'ml-1', {done: item.done}]"
+          :class="['form__control', 'ml-1', 'mr-1', {done: item.done}]"
           @input="changeText($event.target.value, item.id)"
           ref="newItem"
         />
@@ -68,7 +68,6 @@ export default {
 @import "../../../../assets/scss/form";
 
 input[type=text] {
-  @extend .form__control;
   padding: 3px;
   border-color: transparent;
   &.done {
