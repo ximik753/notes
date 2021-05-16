@@ -3,7 +3,7 @@
     <the-header></the-header>
     <div class="container mt-3 flex-fill pb-3 row">
       <div class="col-4 border-right p-2">
-        <app-notes-list></app-notes-list>
+        <app-notes-container></app-notes-container>
       </div>
       <div class="col-8 position-relative">
         <app-note-container></app-note-container>
@@ -15,10 +15,10 @@
 <script>
 import AppNoteContainer from '../components/notes/noteContainer/AppNoteContainer'
 import TheHeader from '../components/notes/TheHeader'
-import AppNotesList from '../components/notes/notesList/AppNotesList'
+import AppNotesContainer from '../components/notes/notesContainer/AppNotesContainer'
 
 export default {
   name: 'Home',
-  components: {AppNotesList, TheHeader, AppNoteContainer}
+  components: {AppNotesContainer, TheHeader, AppNoteContainer}
 }
 </script>
