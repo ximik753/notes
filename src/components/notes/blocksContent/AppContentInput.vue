@@ -1,17 +1,40 @@
 <template>
-  <app-add-block @add-component="addComponent($event, true, blockIdx)"></app-add-block>
-  <div contenteditable class="content-input" @input="onChange(componentId, $event.target.innerHTML)" v-html="data" v-once></div>
-  <app-add-block @add-component="addComponent($event, false, blockIdx)"></app-add-block>
+  <app-block-container
+    :block-idx="blockIdx"
+    :totalComponents="totalComponents"
+  >
+    <div
+      contenteditable
+      class="content-input"
+      placeholder="Нажмите, чтобы изменить содержимое поля"
+      @input="onChange(componentId, $event.target.innerHTML)"
+      v-html="data"
+      v-once
+    ></div>
+  </app-block-container>
 </template>
 
 <script>
-import AppAddBlock from './AppAddBlock'
 import {useContentBlock} from '../../../hooks/contentBlock'
+import AppBlockContainer from './AppBlockContainer'
 
 export default {
   name: 'AppContentInput',
-  components: {AppAddBlock},
-  props: ['data', 'componentId', 'blockIdx'],
+  components: {AppBlockContainer},
+  props: {
+    data: {
+      required: true
+    },
+    componentId: {
+      required: true
+    },
+    blockIdx: {
+      required: true
+    },
+    totalComponents: {
+      required: true
+    }
+  },
   setup() {
     return {...useContentBlock()}
   }
@@ -24,6 +47,10 @@ export default {
 .content-input {
   border-color: transparent;
   padding: 0;
+  &:empty:before {
+    content: attr(placeholder);
+    color: $gray-600;
+  }
   &:focus {
     border-color: $blue;
   }

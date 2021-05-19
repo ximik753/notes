@@ -8,7 +8,7 @@
     v-for="(component, index) in components"
     :key="component.id"
     :is="componentsName[index]"
-    v-bind="{data: component.data, componentId: component.id, blockIdx: index}"
+    v-bind="{data: component.data, componentId: component.id, blockIdx: index, totalComponents: components.length}"
   ></component>
 </template>
 

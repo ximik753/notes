@@ -1,8 +1,10 @@
 <template>
-  <div class="add-block">
-    <div class="add-block__buttons">
-      <button class="btn btn-primary btn-sm" @click="add('todo')">+ todo</button>
-      <button class="btn btn-primary btn-sm" @click="add('input')">+ текст</button>
+  <div class="position-absolute w-100">
+    <div class="add-block">
+      <div class="add-block__buttons">
+        <button class="btn btn-primary btn-sm" @click="add('todo')">+ todo</button>
+        <button class="btn btn-primary btn-sm" @click="add('input')">+ текст</button>
+      </div>
     </div>
   </div>
 </template>
@@ -52,6 +54,7 @@ export default {
     justify-content: space-between;
     & > button {
       align-self: center;
+      padding: 0 .5rem;
     }
   }
 }
