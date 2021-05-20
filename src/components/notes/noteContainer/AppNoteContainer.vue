@@ -6,7 +6,7 @@
     <app-note-container-with-content></app-note-container-with-content>
   </div>
   <div v-else class="position-absolute empty-container">
-    <img class="logo" src="../../../assets/images/note.png" alt="logo">
+    <img class="logo" src="../../../assets/images/notes/note.png" alt="logo">
     <p class="empty-text">Выберите заметку или создате новую</p>
   </div>
 </template>

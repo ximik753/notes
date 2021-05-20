@@ -2,7 +2,7 @@
   <header class="col-12">
     <div class="container d-flex justify-content-between pt-3 pb-3">
       <div class="row align-items-center">
-        <img class="logo" src="../../assets/images/logo.png" alt="logo">
+        <img class="logo" src="../../assets/images/notes/logo.png" alt="logo">
         <span class="ml-2 logo__color fw-bold">Заметки</span>
       </div>
       <button class="btn btn-danger align-self-center" @click="$store.dispatch('auth/logout')">Выйти</button>
