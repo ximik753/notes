@@ -1,5 +1,6 @@
 import store from '../store'
 import {debounce} from '../utils'
+import {DEFAULT_CHANGE_WAIT} from '../utils/note'
 
 export function useContentBlock() {
   const addComponent = (type, isBefore, blockIdx) => {
@@ -9,12 +10,12 @@ export function useContentBlock() {
     })
   }
 
-  const onChange = debounce(async(nodeId, value) => {
+  const onChange = debounce(async(componentId, value) => {
     await store.dispatch('note/patchData', {
-      nodeId,
+      componentId,
       value
     })
-  }, 300)
+  }, DEFAULT_CHANGE_WAIT)
 
   return {addComponent, onChange}
 }

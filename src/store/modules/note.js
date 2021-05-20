@@ -40,9 +40,9 @@ export default {
         ctx.commit('setUpdating', false)
       }
     },
-    async patchData(ctx, {nodeId, value}) {
-      const notes = ctx.getters.getData.map(n => {
-        if (n.id === nodeId) {
+    async patchData(ctx, {componentId, value}) {
+      const components = ctx.getters.getData.map(n => {
+        if (n.id === componentId) {
           n.data = value
         }
         return n

@@ -1,3 +1,5 @@
+export const DEFAULT_CHANGE_WAIT = 500
+
 export function createTemplateNote(id) {
   return {
     id: id,
