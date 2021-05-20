@@ -1,5 +1,5 @@
 import Http from '../../utils/requests/Http'
-import {createInputBlock, createTodoBlock} from '../../utils/note'
+import {changeNotePosition, createInputBlock, createTodoBlock} from '../../utils/note'
 import createCancelRequest from '../../utils/requests/cancelRequest'
 
 export default {
@@ -31,13 +31,7 @@ export default {
       if (ctx.state.note.title !== title && title.length <= 15) {
         ctx.commit('setTitle', title)
         ctx.dispatch('notes/updateNotesList', {title, id: ctx.state.note.id}, {root: true})
-        ctx.commit('changeLastTimeUpdate')
-        await Http.patch({
-          url: `/note/${ctx.state.note.id}`,
-          body: {title},
-          isAuth: true
-        })
-        ctx.commit('setUpdating', false)
+        await ctx.dispatch('sendData', {title})
       }
     },
     async patchData(ctx, {componentId, value}) {
@@ -47,13 +41,26 @@ export default {
         }
         return n
       })
-
       ctx.dispatch('notes/updateNotesList', {id: ctx.state.note.id}, {root: true})
-      ctx.commit('setData', notes)
+      ctx.commit('setData', components)
+      await ctx.dispatch('sendData', {data: components})
+    },
+    async changeComponents(ctx, {componentId, position}) {
+      let data
+      if (typeof position === 'number') {
+        const component = ctx.getters.getData.find(c => c.id === componentId)
+        data = [...changeNotePosition(component, [...ctx.getters.getData], position)]
+      } else {
+        data = ctx.getters.getData.filter(n => n.id !== componentId)
+      }
+      ctx.commit('setData', data)
+      await ctx.dispatch('sendData', {data})
+    },
+    async sendData(ctx, data) {
       ctx.commit('changeLastTimeUpdate')
       await Http.patch({
         url: `/note/${ctx.state.note.id}`,
-        body: {data: notes},
+        body: data,
         isAuth: true
       })
       ctx.commit('setUpdating', false)
@@ -74,7 +81,7 @@ export default {
       state.note.data = [createInputBlock()]
     },
     setData(state, data) {
-      state.note.data = data
+      state.note.data = [...data]
       state.updating = true
     },
     changeLastTimeUpdate(state) {

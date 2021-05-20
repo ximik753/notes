@@ -8,12 +8,17 @@
     v-for="(component, index) in components"
     :key="component.id"
     :is="componentsName[index]"
-    v-bind="{data: component.data, componentId: component.id, blockIdx: index, totalComponents: components.length}"
+    v-bind="{
+      data: component.data,
+      componentId: component.id,
+      blockIdx: index,
+      totalComponents: components.length
+    }"
   ></component>
 </template>
 
 <script>
-import AppContentInput from '../blocksContent/AppContentInput'
+import AppContentInput from '../blocksContent/input/AppContentInput'
 import AppContentTodo from '../blocksContent/todo/AppContentTodo'
 import AppSpinner from '../../UI/AppSpinner'
 import AppNoteContainerTitle from './AppNoteContainerTitle'

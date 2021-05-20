@@ -29,9 +29,13 @@ export function generateId() {
   })
 }
 
-export function moveNoteToTop(note, array) {
+export function changeNotePosition(note, array, newPos = 0) {
   const idx = array.indexOf(note)
   array.splice(idx, 1)
-  array.splice(0, 0, note)
+  array.splice(newPos, 0, note)
   return array
+}
+
+export function moveNoteToTop(note, array) {
+  return changeNotePosition(note, array)
 }

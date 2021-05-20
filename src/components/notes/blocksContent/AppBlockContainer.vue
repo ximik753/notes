@@ -1,10 +1,15 @@
 <template>
-  <div class="position-relative">
+  <div class="position-relative wrapper">
     <app-add-block
       @add-component="addComponent($event, true, blockIdx)"
       class="block"
     ></app-add-block>
     <div class="block-container">
+      <app-block-control
+        :component-id="componentId"
+        :total-components="totalComponents"
+        :block-idx="blockIdx"
+      ></app-block-control>
       <slot></slot>
     </div>
     <app-add-block
@@ -17,11 +22,12 @@
 
 <script>
 import AppAddBlock from './AppAddBlock'
+import AppBlockControl from './blockControl/AppBlockControl'
 import {useContentBlock} from '../../../hooks/contentBlock'
 
 export default {
   name: 'AppBlockContainer',
-  components: {AppAddBlock},
+  components: {AppBlockControl, AppAddBlock},
   props: {
     blockIdx: {
       required: true,
@@ -30,6 +36,9 @@ export default {
     totalComponents: {
       required: true,
       type: Number
+    },
+    componentId: {
+      required: true
     }
   },
   setup() {
@@ -50,6 +59,13 @@ export default {
   }
 }
 .block-container {
-  padding: 10px 0;
+  padding: 15px 0;
+  position: relative;
+}
+.wrapper {
+  padding-top: .3rem;
+  &:hover .block-control {
+    opacity: 1;
+  }
 }
 </style>

@@ -2,6 +2,7 @@
   <app-block-container
     :block-idx="blockIdx"
     :total-components="totalComponents"
+    :component-id="componentId"
   >
     <app-todo
       :data="data"

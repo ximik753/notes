@@ -2,6 +2,7 @@
   <app-block-container
     :block-idx="blockIdx"
     :totalComponents="totalComponents"
+    :component-id="componentId"
   >
     <div
       contenteditable
@@ -15,8 +16,8 @@
 </template>
 
 <script>
-import {useContentBlock} from '../../../hooks/contentBlock'
-import AppBlockContainer from './AppBlockContainer'
+import {useContentBlock} from '../../../../hooks/contentBlock'
+import AppBlockContainer from '../AppBlockContainer'
 
 export default {
   name: 'AppContentInput',
@@ -42,7 +43,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "../../../assets/scss/vareables";
+@import "../../../../assets/scss/vareables";
 
 .content-input {
   border-color: transparent;
