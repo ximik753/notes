@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import {timeParse} from '../../utils/time'
+import {timeParse} from '../../../../../utils/time'
 
 export default {
   name: 'AppNote',
@@ -41,7 +41,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "../../assets/scss/vareables";
+@import "../../../../../assets/scss/vareables";
 
 h6 {
   margin: 0 3rem 0 0;

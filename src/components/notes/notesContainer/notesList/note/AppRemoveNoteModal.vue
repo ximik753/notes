@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import AppModal from '../../../UI/modal/AppModal'
+import AppModal from '../../../../UI/modal/AppModal'
 
 export default {
   name: 'AppRemoveNoteModal',

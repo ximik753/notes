@@ -21,8 +21,8 @@
 </template>
 
 <script>
-import AppNote from '../../AppNote'
-import AppRemoveNoteModal from './AppRemoveNoteModal'
+import AppNote from './note/AppNote'
+import AppRemoveNoteModal from './note/AppRemoveNoteModal'
 
 export default {
   name: 'AppNotesList',
