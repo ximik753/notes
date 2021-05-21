@@ -8,16 +8,22 @@
       :on-click="button.onClick"
     ></app-block-control-button>
   </div>
+  <app-block-remove-modal
+    v-if="show"
+    @close="closeModal"
+    @remove="removeComponent"
+  ></app-block-remove-modal>
 </template>
 
 <script>
 import AppBlockControlButton from './AppBlockControlButton'
 import arrow from '../../../../assets/images/icons/arrow.svg'
 import trash from '../../../../assets/images/icons/trash.svg'
+import AppBlockRemoveModal from './AppBlockRemoveModal'
 
 export default {
   name: 'AppBlockControl',
-  components: {AppBlockControlButton},
+  components: {AppBlockRemoveModal, AppBlockControlButton},
   props: {
     blockIdx: {
       required: true,
@@ -31,9 +37,20 @@ export default {
       required: true
     }
   },
+  data() {
+    return {
+      show: false
+    }
+  },
   methods: {
     async removeComponent() {
       await this.$store.dispatch('note/changeComponents', {componentId: this.componentId})
+    },
+    openModal() {
+      this.show = true
+    },
+    closeModal() {
+      this.show = false
     },
     async changePosition(newIdx) {
       if (newIdx !== -1 && newIdx !== this.totalComponents) {
@@ -50,7 +67,7 @@ export default {
       return [
         {icon: arrow, className: 'arrow-top', onClick: this.changePosition.bind(this, this.blockIdx - 1)},
         {icon: arrow, onClick: this.changePosition.bind(this, this.blockIdx + 1)},
-        {icon: trash, onClick: this.removeComponent}
+        {icon: trash, onClick: this.openModal}
       ]
     }
   }
