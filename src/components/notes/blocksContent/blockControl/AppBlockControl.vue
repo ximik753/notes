@@ -60,6 +60,11 @@ export default {
 <style scoped lang="scss">
 @import "../../../../assets/scss/vareables";
 
+.wrapper {
+  &:hover .block-control {
+    opacity: 1;
+  }
+}
 .block-control {
   right: 30px;
   top: -13px;

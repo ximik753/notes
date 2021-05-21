@@ -48,6 +48,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "../../../assets/scss/vareables";
+
 .block {
   &:first-child {
     left: 0;
@@ -63,9 +65,10 @@ export default {
   position: relative;
 }
 .wrapper {
-  padding-top: .3rem;
-  &:hover .block-control {
-    opacity: 1;
+  padding: .3rem .3rem 0 .3rem;
+  transition: background-color .33s ease;
+  &:hover {
+    background-color: $gray-100;
   }
 }
 </style>
