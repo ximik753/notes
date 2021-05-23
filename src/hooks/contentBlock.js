@@ -3,8 +3,8 @@ import {debounce} from '../utils'
 import {DEFAULT_CHANGE_WAIT} from '../utils/note'
 
 export function useContentBlock() {
-  const addComponent = (type, isBefore, blockIdx) => {
-    store.commit('note/addComponent', {
+  const addComponent = async(type, isBefore, blockIdx) => {
+    await store.dispatch('note/addComponent', {
       type,
       potion: isBefore ? blockIdx : blockIdx + 1
     })

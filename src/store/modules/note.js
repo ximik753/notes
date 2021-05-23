@@ -56,6 +56,12 @@ export default {
       ctx.commit('setData', data)
       await ctx.dispatch('sendData', {data})
     },
+    async addComponent(ctx, {potion, type}) {
+      const data = [...ctx.getters.getData]
+      data.splice(potion, 0, type === 'input' ? createInputBlock() : createTodoBlock())
+      ctx.commit('setData', data)
+      await ctx.dispatch('sendData', {data})
+    },
     async sendData(ctx, data) {
       ctx.commit('changeLastTimeUpdate')
       const {request, abort} = createCancelRequest(`/note/${ctx.state.note.id}`)
@@ -90,9 +96,6 @@ export default {
     },
     changeLastTimeUpdate(state) {
       state.note.last_update = new Date(Date.now()).toISOString()
-    },
-    addComponent(state, {potion, type}) {
-      state.note.data.splice(potion, 0, type === 'input' ? createInputBlock() : createTodoBlock())
     },
     setFetching(state, payload) {
       state.fetching = payload.status
