@@ -70,9 +70,11 @@ export default {
         ctx.state.updatingCancel()
       }
 
-      ctx.commit('setUpdatingCancel', abort)
-      await request('PATCH', data)
-      ctx.commit('setUpdating', false)
+      ctx.commit('setUpdating', {cancel: abort, status: true})
+      try {
+        await request('PATCH', data)
+        ctx.commit('setUpdating', false)
+      } catch (e) {}
     }
   },
   mutations: {
@@ -82,12 +84,11 @@ export default {
     setTitle(state, title) {
       state.note.title = title
     },
-    setUpdating(state, status) {
+    setUpdating(state, {status, cancel}) {
       state.updating = status
-    },
-    setUpdatingCancel(state, cancel) {
-      state.updatingCancel = cancel
-      state.updating = true
+      if (cancel) {
+        state.updatingCancel = cancel
+      }
     },
     setDefaultData(state) {
       state.note.data = [createInputBlock()]
