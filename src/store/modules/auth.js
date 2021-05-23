@@ -1,35 +1,24 @@
-import {storage} from '../../utils'
-import {notify} from '../../plugins/notification/notify'
-import {isCorrectToken} from '../../utils/requests/requestHelpers'
 import Http from '../../utils/requests/Http'
 import router from '../../router'
-
-let token = storage('auth')?.token
-token = token && isCorrectToken(token) ? token : null
+import {storage} from '../../utils'
+import {danger} from '../../utils/notifications'
 
 export default {
   namespaced: true,
   state: {
-    token,
+    token: storage('auth')?.token,
     refreshToken: storage('auth')?.refreshToken
   },
   actions: {
     async register({commit, dispatch}, body) {
       try {
-        const data = await Http.post({
+        await Http.post({
           url: '/auth/register',
           body
         })
-
-        if (data) {
-          await dispatch('login', body)
-        }
+        await dispatch('login', body)
       } catch (e) {
-        notify({
-          title: 'Ошибка!',
-          text: e.message,
-          type: 'danger'
-        })
+        danger(e.message)
       }
     },
     async login({commit}, body) {
@@ -40,11 +29,7 @@ export default {
         commit('setTokens', tokens)
         await router.push('/')
       } catch (e) {
-        notify({
-          title: 'Ошибка!',
-          text: e.message,
-          type: 'danger'
-        })
+        danger(e.message)
       }
     },
     async refreshTokens({commit, state}) {
