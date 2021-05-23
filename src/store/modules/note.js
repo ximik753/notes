@@ -1,12 +1,12 @@
-import Http from '../../utils/requests/Http'
-import {changeNotePosition, createInputBlock, createTodoBlock} from '../../utils/note'
 import createCancelRequest from '../../utils/requests/cancelRequest'
+import {changeNotePosition, createInputBlock, createTodoBlock} from '../../utils/note'
 
 export default {
   namespaced: true,
   state: {
     note: null,
     updating: false,
+    updatingCancel: null,
     fetching: false,
     fetchingCancel: null
   },
@@ -58,11 +58,13 @@ export default {
     },
     async sendData(ctx, data) {
       ctx.commit('changeLastTimeUpdate')
-      await Http.patch({
-        url: `/note/${ctx.state.note.id}`,
-        body: data,
-        isAuth: true
-      })
+      const {request, abort} = createCancelRequest(`/note/${ctx.state.note.id}`)
+      if (ctx.state.updating) {
+        ctx.state.updatingCancel()
+      }
+
+      ctx.commit('setUpdatingCancel', abort)
+      await request('PATCH', data)
       ctx.commit('setUpdating', false)
     }
   },
@@ -72,17 +74,19 @@ export default {
     },
     setTitle(state, title) {
       state.note.title = title
-      state.updating = true
     },
     setUpdating(state, status) {
       state.updating = status
+    },
+    setUpdatingCancel(state, cancel) {
+      state.updatingCancel = cancel
+      state.updating = true
     },
     setDefaultData(state) {
       state.note.data = [createInputBlock()]
     },
     setData(state, data) {
       state.note.data = [...data]
-      state.updating = true
     },
     changeLastTimeUpdate(state) {
       state.note.last_update = new Date(Date.now()).toISOString()
