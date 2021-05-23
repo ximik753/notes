@@ -62,7 +62,7 @@ export default {
     updateNote(state, noteId) {
       const note = state.notes.find(note => note.id === noteId)
       note.last_update = new Date(Date.now()).toISOString()
-      state.notes = [...moveNoteToTop(note, state.notes)]
+      state.notes = [...moveNoteToTop(note, [...state.notes])]
     },
     removeNoteById(state, id) {
       state.notes = state.notes.filter(n => n.id !== id)

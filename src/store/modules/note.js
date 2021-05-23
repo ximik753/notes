@@ -35,7 +35,8 @@ export default {
       }
     },
     async patchData(ctx, {componentId, value}) {
-      const components = ctx.getters.getData.map(n => {
+      const data = [...ctx.getters.getData]
+      const components = data.map(n => {
         if (n.id === componentId) {
           n.data = value
         }
