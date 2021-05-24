@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="onSubmit">
+  <form @submit="onSubmit">
     <form-control
       id="login"
       label="Логин"
@@ -24,11 +24,11 @@
 
 <script>
 import FormControl from '../UI/FormControl'
+import AppSpinner from '../UI/AppSpinner'
 import validators from '../../utils/validators'
 import {useForm} from '../../hooks/form/form'
 import {useField} from '../../hooks/form/field'
 import {useStore} from 'vuex'
-import AppSpinner from '../UI/AppSpinner'
 
 export default {
   name: 'Login',

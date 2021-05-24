@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="onSubmit">
+  <form @submit="onSubmit">
     <form-control
       id="login"
       label="Логин"
@@ -23,23 +23,26 @@
       :error="rpError"
       v-model:value="replyPassword"
     />
-    <button class="btn btn-primary w-100" type="submit">
-      Зарегистрироваться</button>
+    <button class="btn btn-primary w-100" :disabled="isSubmitting">
+      <app-spinner small v-if="isSubmitting"></app-spinner>
+      Зарегистрироваться
+    </button>
   </form>
 </template>
 
 <script>
+import AppSpinner from '../UI/AppSpinner'
+import FormControl from '../UI/FormControl'
+import validators from '../../utils/validators'
 import {useField} from '../../hooks/form/field'
 import {useForm} from '../../hooks/form/form'
 import {useStore} from 'vuex'
-import validators from '../../utils/validators'
-import FormControl from '../UI/FormControl'
 
 export default {
   name: 'Register',
-  components: {FormControl},
+  components: {AppSpinner, FormControl},
   setup() {
-    const {submitForm} = useForm()
+    const {submitForm, isSubmitting} = useForm()
     const {value: login, error: lError, blur: lBlur} = useField(
       'login',
       validators.string().required().minLength(5).maxLength(10))
@@ -65,7 +68,8 @@ export default {
       replyPassword,
       rpError,
       rpBlur,
-      onSubmit
+      onSubmit,
+      isSubmitting
     }
   }
 }
