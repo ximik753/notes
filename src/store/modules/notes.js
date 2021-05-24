@@ -70,12 +70,15 @@ export default {
     },
     setRemovingStatus(state, status) {
       state.removing = status
+    },
+    clearNotes(state) {
+      state.notes = null
     }
   },
   getters: {
     getNoteById(state) {
       return id => {
-        return state.notes.find(note => note.id === id)
+        return state.notes?.find(note => note.id === id)
       }
     }
   }

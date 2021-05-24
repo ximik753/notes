@@ -104,6 +104,9 @@ export default {
       if (payload.status) {
         state.fetchingCancel = payload.abort
       }
+    },
+    clearNote(state) {
+      state.note = null
     }
   },
   getters: {

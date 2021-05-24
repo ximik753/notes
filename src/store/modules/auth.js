@@ -41,6 +41,8 @@ export default {
     },
     async logout({commit}) {
       commit('removeToken')
+      commit('note/clearNote', null, {root: true})
+      commit('notes/clearNotes', null, {root: true})
       await router.push('/auth')
     }
   },
