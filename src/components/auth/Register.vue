@@ -51,11 +51,9 @@ export default {
       validators.string().required().isEqual(password, 'Пароли не совпадают'))
     const store = useStore()
 
-    const onSubmit = () => {
-      submitForm(async values => {
-        await store.dispatch('auth/register', values)
-      })
-    }
+    const onSubmit = submitForm(async values => {
+      await store.dispatch('auth/register', values)
+    })
 
     return {
       login,

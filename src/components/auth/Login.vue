@@ -43,11 +43,9 @@ export default {
       validators.string().required().minLength(6).maxLength(50))
     const store = useStore()
 
-    const onSubmit = () => {
-      submitForm(async values => {
-        await store.dispatch('auth/login', values)
-      })
-    }
+    const onSubmit = submitForm(async values => {
+      await store.dispatch('auth/login', values)
+    })
 
     return {
       login,

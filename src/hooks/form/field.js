@@ -7,29 +7,34 @@ export function useField(name, rules) {
   const error = ref(null)
   const touched = ref(false)
 
-  const field = {
-    error,
-    name,
-    value
+  const validationHandler = val => {
+    for (const validator of rules.validators) {
+      const resValidation = validator(val)
+      if (resValidation !== true) {
+        error.value = resValidation
+        break
+      }
+    }
   }
-
-  form.register(field)
-  onBeforeUnmount(() => {
-    form.unregister(field)
-  })
 
   const validation = ([val, touched]) => {
     if (touched) {
       error.value = null
-      for (const validator of rules.validators) {
-        const resValidation = validator(val)
-        if (resValidation !== true) {
-          error.value = resValidation
-          break
-        }
-      }
+      validationHandler(val)
     }
   }
+
+  const field = {
+    error,
+    name,
+    value,
+    touched,
+    validate: validationHandler
+  }
+  form.register(field)
+  onBeforeUnmount(() => {
+    form.unregister(field)
+  })
 
   watch([value, touched], validation)
 

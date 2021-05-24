@@ -19,10 +19,50 @@ export function useForm() {
     }, {})
   })
 
-  const submitForm = async fn => {
-    isSubmitting.value = true
-    await fn(formData.value)
-    isSubmitting.value = false
+  function isFormValid() {
+    return fields.value.every(({error}) => {
+      return error === null
+    })
+  }
+
+  function validate() {
+    return new Promise(resolve => {
+      fields.value.forEach(({validate, value}) => {
+        validate(value)
+      })
+      resolve(isFormValid())
+    })
+  }
+
+  function setTouched() {
+    fields.value = [...fields.value].map(field => {
+      field.touched = true
+      return field
+    })
+  }
+
+  const submitForm = fn => {
+    return e => {
+      if (e instanceof Event) {
+        e.preventDefault()
+      }
+      setTouched()
+      isSubmitting.value = true
+      validate()
+        .then(result => {
+          if (result) {
+            return fn(formData.value)
+          }
+        })
+        .then(
+          () => {
+            isSubmitting.value = false
+          },
+          () => {
+            isSubmitting.value = false
+          }
+        )
+    }
   }
 
   const formCtx = {
