@@ -32,6 +32,8 @@ export default {
         ctx.commit('setTitle', title)
         ctx.dispatch('notes/updateNotesList', {title, id: ctx.state.note.id}, {root: true})
         await ctx.dispatch('sendData', {title})
+      } else {
+        ctx.commit('setTitle', title)
       }
     },
     async patchData(ctx, {componentId, value}) {
