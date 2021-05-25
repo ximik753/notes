@@ -133,3 +133,9 @@ $modal-backdrop-bg: rgba($black, .5) !default;
 $modal-backdrop-opacity: .5 !default;
 $modal-window-border-radius: 5px !default;
 $modal-window-bg: $white !default;
+
+$aside-width: 28rem;
+$main-margin: $aside-width;
+$header-height: 77px;
+$main-padding-top: calc(#{$header-height} + 2rem);
+$main-container-height: calc(100vh - #{$main-padding-top});

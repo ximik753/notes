@@ -1,13 +1,16 @@
 <template>
   <div class="d-flex flex-direction-column min-vh-100">
     <the-header></the-header>
-    <div class="container mt-3 flex-fill pb-3 row">
-      <div class="col-4 border-right p-2">
+    <div class="container pb-3 d-flex">
+      <aside class="position-fixed border-right p-2">
         <app-notes-container></app-notes-container>
-      </div>
-      <div class="col-8 position-relative">
+      </aside>
+      <main
+        class="w-100"
+        :class="{'full-height': !$store.state.note.note || $store.state.note.fetching}"
+      >
         <app-note-container></app-note-container>
-      </div>
+      </main>
     </div>
   </div>
 </template>
@@ -22,3 +25,20 @@ export default {
   components: {AppNotesContainer, TheHeader, AppNoteContainer}
 }
 </script>
+
+<style scoped lang="scss">
+@import "../assets/scss/vareables";
+
+aside {
+  width: $aside-width;
+  height: 100vh;
+  top: $header-height;
+}
+main {
+  margin-left: $main-margin;
+  padding-top: $main-padding-top;
+}
+.full-height {
+  height: $main-container-height;
+}
+</style>

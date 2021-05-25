@@ -2,12 +2,17 @@
   <div class="d-flex justify-content-center align-items-center h-100" v-if="loading">
     <app-spinner color="primary"></app-spinner>
   </div>
-  <div class="p-5 position-relative" v-else-if="!loading && $store.state.note.note">
+  <div
+    class="pl-5 pr-5 pb-2 position-relative"
+    v-else-if="!loading && $store.state.note.note"
+  >
     <app-note-container-with-content></app-note-container-with-content>
   </div>
-  <div v-else class="position-absolute empty-container">
-    <img class="logo" src="../../../assets/images/notes/note.png" alt="logo">
-    <p class="empty-text">Выберите заметку или создате новую</p>
+  <div v-else class="d-flex justify-content-center align-items-center h-100 text-center">
+    <div class="empty-container">
+      <img class="logo" src="../../../assets/images/notes/note.png" alt="logo">
+      <p class="empty-text">Выберите заметку или создате новую</p>
+    </div>
   </div>
 </template>
 
@@ -44,10 +49,6 @@ export default {
 
 <style scoped>
 .empty-container {
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
   width: 200px;
-  text-align: center;
 }
 </style>

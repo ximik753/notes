@@ -51,6 +51,6 @@ export default {
 
 <style scoped>
 .text-update {
-  top: 15px;
+  top: -30px;
 }
 </style>
