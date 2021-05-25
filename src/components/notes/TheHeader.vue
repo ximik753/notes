@@ -26,9 +26,8 @@ header {
 }
 .logo {
   width: 45px;
-
   &__color {
-    color: #FFF200;
+    color: $gray-900;
     font-size: 16px;
   }
 }
