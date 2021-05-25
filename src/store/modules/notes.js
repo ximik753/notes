@@ -11,6 +11,8 @@ export default {
   },
   actions: {
     async createNote(ctx) {
+      ctx.commit('setCreatingStatus', true)
+      ctx.commit('note/creatingNote', null, {root: true})
       const {id} = await Http.post({
         url: '/note',
         isAuth: true
@@ -25,7 +27,6 @@ export default {
         url: '/note',
         isAuth: true
       })
-      ctx.commit('setCreatingStatus', false)
       ctx.commit('initNotes', notes)
     },
     async removeNote({commit, state}, id) {
@@ -48,9 +49,11 @@ export default {
   mutations: {
     addNote(state, note) {
       state.notes = [note, ...state.notes]
+      state.creating = false
     },
     initNotes(state, notes) {
       state.notes = notes
+      state.creating = false
     },
     setCreatingStatus(state, status) {
       state.creating = status

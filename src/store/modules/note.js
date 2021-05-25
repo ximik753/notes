@@ -109,6 +109,10 @@ export default {
     },
     clearNote(state) {
       state.note = null
+    },
+    creatingNote(state) {
+      state.note = null
+      state.fetching = true
     }
   },
   getters: {
