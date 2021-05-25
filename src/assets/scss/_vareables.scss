@@ -28,6 +28,7 @@ $gray-900: #212529 !default;
 $black: #000 !default;
 
 $blue: #0d6efd !default;
+$blue-light: #dae2ea !default;
 $red: #dc3545 !default;
 $yellow: #ffc107 !default;
 $green: #198754 !default;
@@ -139,3 +140,7 @@ $main-margin: $aside-width;
 $header-height: 77px;
 $main-padding-top: calc(#{$header-height} + 2rem);
 $main-container-height: calc(100vh - #{$main-padding-top});
+
+$scrollbar-width: 10px;
+$scrollbar-thumb-width: $scrollbar-width;
+$scrollbar-thumb-border-radius: 3rem;

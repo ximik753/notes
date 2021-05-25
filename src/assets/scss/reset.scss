@@ -29,3 +29,12 @@ h1, h2, h3, h4, h5, h6 {
 label {
   display: inline-block;
 }
+
+::-webkit-scrollbar-thumb {
+  width: $scrollbar-thumb-width;
+  background-color: $blue-light;
+  border-radius: $scrollbar-thumb-border-radius;
+}
+::-webkit-scrollbar {
+  width: $scrollbar-width;
+}
