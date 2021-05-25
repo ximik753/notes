@@ -58,5 +58,6 @@ export default {
 <style scoped>
 .list {
   overflow-y: auto;
+  height: calc(100% - 24px - 1rem);
 }
 </style>

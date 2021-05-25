@@ -29,9 +29,11 @@ export default {
 <style scoped lang="scss">
 @import "../assets/scss/vareables";
 
+$padding-aside: map-get($spacers, 2);
+
 aside {
   width: $aside-width;
-  height: 100vh;
+  height: calc(100vh - #{$header-height});
   top: $header-height;
 }
 main {
