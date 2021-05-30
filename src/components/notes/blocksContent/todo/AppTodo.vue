@@ -25,7 +25,7 @@
 <script>
 import AppTodoItem from './todoItem/AppTodoItem'
 import {createTodoItemBlock, getDragAfterElement} from '../../../../utils/note'
-import {getDataAttributeValue} from '../../../../utils'
+import {getDataAttributeValue, isEqual} from '../../../../utils'
 
 export default {
   name: 'AppTodo',
@@ -54,15 +54,20 @@ export default {
       const el = getDragAfterElement(this.$refs.container, e.clientY)
       const draggableEl = this.$refs.container.querySelector('div.dragging')
       const draggableElDataIndex = +getDataAttributeValue(draggableEl, 'id')
+      const todo = [...this.todos]
 
       if (el) {
         const elDataIndex = +getDataAttributeValue(el, 'id')
         const elIndex = elDataIndex < draggableElDataIndex ? draggableElDataIndex + 1 : draggableElDataIndex
-        this.todos.splice(elDataIndex, 0, this.draggingItem)
-        this.todos.splice(elIndex, 1)
+        todo.splice(elDataIndex, 0, this.draggingItem)
+        todo.splice(elIndex, 1)
       } else {
-        this.todos.push(this.draggingItem)
-        this.todos.splice(draggableElDataIndex, 1)
+        todo.push(this.draggingItem)
+        todo.splice(draggableElDataIndex, 1)
+      }
+
+      if (!isEqual(todo, this.todos)) {
+        this.todos = todo
       }
     },
     dragEnd() {

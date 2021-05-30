@@ -47,3 +47,7 @@ export function debounce(fn, wait) {
 export function getDataAttributeValue(el, name) {
   return el.dataset[name]
 }
+
+export function isEqual(a, b) {
+  return JSON.stringify(a) === JSON.stringify(b)
+}
