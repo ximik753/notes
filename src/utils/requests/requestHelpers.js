@@ -15,7 +15,7 @@ export async function updateRefreshToken() {
     }
     return null
   } else {
-    store.commit('auth/logout')
+    await store.dispatch('auth/logout')
     return null
   }
 }
