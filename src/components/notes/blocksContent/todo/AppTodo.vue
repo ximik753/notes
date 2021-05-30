@@ -74,7 +74,7 @@ export default {
     doneTodo(id) {
       this.todos.map(t => t.id === id ? t.done = !t.done : t)
     },
-    changeText(value, id) {
+    changeText({value, id}) {
       this.todos.map(t => t.id === id ? t.value = value : t)
     },
     removeItem(id) {

@@ -5,7 +5,7 @@
       type="text"
       :value="item.value"
       :class="['form__control', 'ml-1', 'mr-1', {done: item.done}]"
-      @input="$emit('change-item', $event.target.value, item.id)"
+      @input="$emit('change-item', {value: $event.target.value, id: item.id})"
       ref="newItem"
     />
   </div>
