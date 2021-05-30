@@ -18,7 +18,7 @@ export function createTodoBlock() {
 }
 
 export function createTodoItemBlock() {
-  return {value: '', done: false, id: Date.now()}
+  return {value: '', done: false, id: generateId()}
 }
 
 export function generateId() {
