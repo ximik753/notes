@@ -1,14 +1,18 @@
 <template>
-  <div class="d-flex flex-direction-column">
+  <div class="d-flex flex-direction-column" ref="container">
     <h6 v-if="todos.length === 0">Задачи отстутстуют</h6>
     <app-todo-item
       v-else
-      v-for="item in todos"
+      v-for="(item, idx) in todos"
       :key="item.id"
       :item="item"
+      :id="idx"
       @change-item="changeText"
       @done-item="doneTodo"
       @remove-item="removeItem"
+      @drag-start="dragStart"
+      @drag-end="dragEnd"
+      @drag-over="dragOver"
     ></app-todo-item>
   </div>
   <button
@@ -20,7 +24,8 @@
 
 <script>
 import AppTodoItem from './todoItem/AppTodoItem'
-import {createTodoItemBlock} from '../../../../utils/note'
+import {createTodoItemBlock, getDragAfterElement} from '../../../../utils/note'
+import {getDataAttributeValue} from '../../../../utils'
 
 export default {
   name: 'AppTodo',
@@ -29,7 +34,8 @@ export default {
   emits: ['change-todo'],
   data() {
     return {
-      todos: [...this.data]
+      todos: [...this.data],
+      draggableItem: null
     }
   },
   watch: {
@@ -41,6 +47,27 @@ export default {
     }
   },
   methods: {
+    dragStart(item) {
+      this.draggingItem = item
+    },
+    dragOver(e) {
+      const el = getDragAfterElement(this.$refs.container, e.clientY)
+      const draggableEl = this.$refs.container.querySelector('div.dragging')
+      const draggableElDataIndex = +getDataAttributeValue(draggableEl, 'id')
+
+      if (el) {
+        const elDataIndex = +getDataAttributeValue(el, 'id')
+        const elIndex = elDataIndex < draggableElDataIndex ? draggableElDataIndex + 1 : draggableElDataIndex
+        this.todos.splice(elDataIndex, 0, this.draggingItem)
+        this.todos.splice(elIndex, 1)
+      } else {
+        this.todos.push(this.draggingItem)
+        this.todos.splice(draggableElDataIndex, 1)
+      }
+    },
+    dragEnd() {
+      this.draggableItem = null
+    },
     addItem() {
       this.todos.push(createTodoItemBlock())
     },

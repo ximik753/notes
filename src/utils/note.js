@@ -39,3 +39,15 @@ export function changeNotePosition(note, array, newPos = 0) {
 export function moveNoteToTop(note, array) {
   return changeNotePosition(note, array)
 }
+
+export function getDragAfterElement(container, y) {
+  const elements = [...container.querySelectorAll('[data-type=dragging]:not(.dragging)')]
+  return elements.reduce((closes, child) => {
+    const box = child.getBoundingClientRect()
+    const offset = y - box.top - box.height / 2
+    if (offset < 0 && offset > closes.offset) {
+      return {element: child, offset}
+    }
+    return closes
+  }, {offset: Number.NEGATIVE_INFINITY}).element
+}
