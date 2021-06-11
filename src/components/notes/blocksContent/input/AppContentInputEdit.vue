@@ -1,18 +1,16 @@
 <template>
-  <teleport to="main">
-    <div
-      class="content-input-edit d-flex justify-content-center align-items-center"
-      v-if="visible"
-      :style="potionContent"
-    >
-      <button
-        v-for="button in buttons"
-        :class="['btn-sm', {selected: styles[button.action]}]"
-        :key="button.title"
-        @click="execCommand(button.action)"
-      >{{button.title}}</button>
-    </div>
-  </teleport>
+  <div
+    class="content-input-edit d-flex justify-content-center align-items-center"
+    v-if="visible"
+    :style="potionContent"
+  >
+    <button
+      v-for="button in buttons"
+      :class="['btn-sm', {selected: styles[button.action]}]"
+      :key="button.title"
+      @click="execCommand(button.action)"
+    >{{button.title}}</button>
+  </div>
 </template>
 
 <script>
@@ -48,7 +46,7 @@ export default {
   computed: {
     potionContent() {
       return {
-        top: `${this.position.y - 50}px`,
+        top: `${this.position.y - 30}px`,
         left: `${this.position.x}px`
       }
     }
@@ -60,7 +58,7 @@ export default {
 @import "../../../../assets/scss/vareables";
 
 .content-input-edit {
-  position: absolute;
+  position: fixed;
   background-color: $gray-500;
   padding: .3rem;
   border-radius: 5px;

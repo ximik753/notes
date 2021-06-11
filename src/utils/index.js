@@ -52,3 +52,11 @@ export function getDataAttributeValue(el, name) {
 export function isEqual(a, b) {
   return JSON.stringify(a) === JSON.stringify(b)
 }
+
+export function getElementPosition(el) {
+  const client = el.getBoundingClientRect()
+  return {
+    x: client.left,
+    y: client.top
+  }
+}

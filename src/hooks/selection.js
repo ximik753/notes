@@ -1,8 +1,9 @@
 import {onMounted, reactive, onUnmounted, ref} from 'vue'
-import {SelectionStyles} from '../utils'
+import {getElementPosition, SelectionStyles} from '../utils'
 
 export function useSelection() {
   const isSelection = ref(false)
+  const isMouseDown = ref(false)
   const selectionStyles = reactive({})
   const selectionPosition = reactive({
     x: Infinity,
@@ -11,32 +12,33 @@ export function useSelection() {
 
   onMounted(() => {
     document.addEventListener('selectionchange', selectChangeHandler)
+    document.addEventListener('mousedown', mouseDownHandler)
+    document.addEventListener('mouseup', mouseUpHandler)
   })
 
   onUnmounted(() => {
     document.removeEventListener('selectionchange', selectChangeHandler)
+    document.removeEventListener('mousedown', mouseDownHandler)
+    document.removeEventListener('mouseup', mouseUpHandler)
   })
 
+  const mouseDownHandler = () => isMouseDown.value = true
+
+  const mouseUpHandler = () => isMouseDown.value = false
+
   const selectChangeHandler = () => {
-    const selection = window.getSelection().toString().trim()
-    isSelection.value = !!selection.length
+    const selection = window.getSelection()
+    const selectionText = selection.toString().trim()
+    isSelection.value = !!selectionText.length
 
-    SelectionStyles.forEach(style => {
-      selectionStyles[style] = document.queryCommandState(style)
-    })
-  }
+    if (selectionText.length) {
+      const {x, y} = getElementPosition(selection.getRangeAt(0).startContainer.parentElement)
+      selectionPosition.x = x
+      selectionPosition.y = y
 
-  const saveStartPosition = e => {
-    selectionPosition.x = e.pageX
-    selectionPosition.y = e.pageY
-  }
-
-  const selectionHandler = e => {
-    const selection = window.getSelection().toString().trim()
-    if (selection.length) {
-      if (selectionPosition.y > e.pageY) {
-        saveStartPosition(e)
-      }
+      SelectionStyles.forEach(style => {
+        selectionStyles[style] = document.queryCommandState(style)
+      })
     }
   }
 
@@ -44,7 +46,6 @@ export function useSelection() {
     isSelection,
     selectionStyles,
     selectionPosition,
-    selectionHandler,
-    saveStartPosition
+    isMouseDown
   }
 }
