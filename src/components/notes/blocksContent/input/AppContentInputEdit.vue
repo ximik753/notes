@@ -6,8 +6,8 @@
       :style="potionContent"
     >
       <button
-        class="btn-sm"
         v-for="button in buttons"
+        :class="['btn-sm', {selected: styles[button.action]}]"
         :key="button.title"
         @click="execCommand(button.action)"
       >{{button.title}}</button>
@@ -24,6 +24,10 @@ export default {
       required: true
     },
     position: {
+      type: Object,
+      required: true
+    },
+    styles: {
       type: Object,
       required: true
     }
@@ -76,6 +80,9 @@ button {
   transition: background-color .33s ease;
   &:hover {
     background-color: $gray-200;
+  }
+  &.selected {
+    background-color: $gray-400;
   }
 }
 </style>

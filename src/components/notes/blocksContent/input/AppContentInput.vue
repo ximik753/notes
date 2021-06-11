@@ -7,6 +7,7 @@
     <app-content-input-edit
       :visible="isSelection"
       :position="selectionPosition"
+      :styles="selectionStyles"
     ></app-content-input-edit>
     <div
       contenteditable
@@ -45,16 +46,17 @@ export default {
     }
   },
   setup() {
-    const {saveStartPosition, selectionHandler, selectionPosition, isSelection} = useSelection()
+    const {saveStartPosition, selectionHandler, selectionPosition, isSelection, selectionStyles} = useSelection()
 
     const mouseDownHandler = e => saveStartPosition(e)
     const mouseUpHandler = e => selectionHandler(e)
 
     return {
       isSelection,
+      selectionPosition,
+      selectionStyles,
       mouseDownHandler,
       mouseUpHandler,
-      selectionPosition,
       ...useContentBlock()
     }
   }

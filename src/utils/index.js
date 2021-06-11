@@ -1,6 +1,7 @@
 import {getCurrentInstance, inject} from 'vue'
 
 export const FormContext = 'vee-validate-form'
+export const SelectionStyles = ['bold', 'italic']
 
 export function injectWithSelf(symbol, def = undefined) {
   const vm = getCurrentInstance()
