@@ -4,11 +4,17 @@
     :totalComponents="totalComponents"
     :component-id="componentId"
   >
+    <app-content-input-edit
+      :visible="isSelection"
+      :position="selectionPosition"
+    ></app-content-input-edit>
     <div
       contenteditable
       class="content-input"
       placeholder="Нажмите, чтобы изменить содержимое поля"
       @input="onChange(componentId, $event.target.innerHTML)"
+      @mouseup="mouseUpHandler"
+      @mousedown="mouseDownHandler"
       v-html="data"
       v-once
     ></div>
@@ -16,12 +22,14 @@
 </template>
 
 <script>
-import {useContentBlock} from '../../../../hooks/contentBlock'
 import AppBlockContainer from '../AppBlockContainer'
+import AppContentInputEdit from './AppContentInputEdit'
+import {useContentBlock} from '../../../../hooks/contentBlock'
+import {useSelection} from '../../../../hooks/selection'
 
 export default {
   name: 'AppContentInput',
-  components: {AppBlockContainer},
+  components: {AppContentInputEdit, AppBlockContainer},
   props: {
     data: {
       required: true
@@ -37,7 +45,18 @@ export default {
     }
   },
   setup() {
-    return {...useContentBlock()}
+    const {saveStartPosition, selectionHandler, selectionPosition, isSelection} = useSelection()
+
+    const mouseDownHandler = e => saveStartPosition(e)
+    const mouseUpHandler = e => selectionHandler(e)
+
+    return {
+      isSelection,
+      mouseDownHandler,
+      mouseUpHandler,
+      selectionPosition,
+      ...useContentBlock()
+    }
   }
 }
 </script>
