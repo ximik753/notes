@@ -4,11 +4,17 @@
     :totalComponents="totalComponents"
     :component-id="componentId"
   >
+    <app-content-input-edit
+      :visible="visible && isSelection"
+      :position="selectionPosition"
+      :styles="selectionStyles"
+    ></app-content-input-edit>
     <div
       contenteditable
       class="content-input"
       placeholder="Нажмите, чтобы изменить содержимое поля"
       @input="onChange(componentId, $event.target.innerHTML)"
+      @mousedown="mouseDownHandler"
       v-html="data"
       v-once
     ></div>
@@ -16,12 +22,15 @@
 </template>
 
 <script>
-import {useContentBlock} from '../../../../hooks/contentBlock'
 import AppBlockContainer from '../AppBlockContainer'
+import AppContentInputEdit from './AppContentInputEdit'
+import {ref, watch} from 'vue'
+import {useContentBlock} from '../../../../hooks/contentBlock'
+import {useSelection} from '../../../../hooks/selection'
 
 export default {
   name: 'AppContentInput',
-  components: {AppBlockContainer},
+  components: {AppContentInputEdit, AppBlockContainer},
   props: {
     data: {
       required: true
@@ -37,7 +46,36 @@ export default {
     }
   },
   setup() {
-    return {...useContentBlock()}
+    const visible = ref(false)
+    const touch = ref(false)
+    const {isSelection, selectionStyles, isMouseDown, selectionPosition} = useSelection()
+
+    const mouseDownHandler = () => {
+      visible.value = false
+      touch.value = true
+    }
+
+    watch(isSelection, () => {
+      if (visible.value) {
+        visible.value = false
+      }
+    })
+
+    watch(isMouseDown, () => {
+      if (touch.value && !isMouseDown.value) {
+        visible.value = true
+        touch.value = false
+      }
+    })
+
+    return {
+      visible,
+      selectionPosition,
+      selectionStyles,
+      isSelection,
+      mouseDownHandler,
+      ...useContentBlock()
+    }
   }
 }
 </script>

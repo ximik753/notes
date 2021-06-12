@@ -1,6 +1,7 @@
 import {getCurrentInstance, inject} from 'vue'
 
 export const FormContext = 'vee-validate-form'
+export const SelectionStyles = ['bold', 'italic']
 
 export function injectWithSelf(symbol, def = undefined) {
   const vm = getCurrentInstance()
@@ -50,4 +51,12 @@ export function getDataAttributeValue(el, name) {
 
 export function isEqual(a, b) {
   return JSON.stringify(a) === JSON.stringify(b)
+}
+
+export function getElementPosition(el) {
+  const client = el.getBoundingClientRect()
+  return {
+    x: client.left,
+    y: client.top
+  }
 }
