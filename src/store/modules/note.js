@@ -56,6 +56,7 @@ export default {
       } else {
         data = ctx.getters.getData.filter(n => n.id !== componentId)
       }
+      ctx.dispatch('notes/updateNotesList', {id: ctx.state.note.id}, {root: true})
       ctx.commit('setData', data)
       await ctx.dispatch('sendData', {data})
     },
